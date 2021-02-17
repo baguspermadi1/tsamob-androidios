@@ -1,7 +1,7 @@
 import configs from '@configs';
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-import {Input} from 'react-native-elements';
+import {Input, Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 const TextInput = ({
@@ -13,6 +13,13 @@ const TextInput = ({
   onChangeText,
   style,
   keyboardType,
+  showPassword,
+  rightIcon,
+  rightIconType,
+  onRightIconPress,
+  leftIcon,
+  leftIconType,
+  onLeftIconPress,
 }) => {
   const [isFocus, setisFocus] = useState(false);
 
@@ -29,6 +36,14 @@ const TextInput = ({
               : configs.colors.neutral.White.base,
           ...style,
         }}>
+        {leftIcon ? (
+          <Icon
+            name={leftIcon}
+            type={leftIconType}
+            onPress={onLeftIconPress}
+            containerStyle={{marginHorizontal: RFValue(8)}}
+          />
+        ) : null}
         <Input
           label={valueText || isFocus ? placeholder : ''}
           labelStyle={{
@@ -40,10 +55,12 @@ const TextInput = ({
             fontSize: configs.sizes.Text.M,
             fontFamily: configs.fonts.OpenSans.Regular,
           }}
+          secureTextEntry={showPassword}
           value={valueText}
           placeholder={valueText || isFocus ? placeholderActive : placeholder}
           containerStyle={{
             height: valueText || isFocus ? '70%' : '60%',
+            width: leftIcon || rightIcon ? '88%' : '100%',
           }}
           inputContainerStyle={styles.inputContainer}
           keyboardType={keyboardType ? keyboardType : 'default'}
@@ -53,6 +70,14 @@ const TextInput = ({
             onChangeText(text);
           }}
         />
+        {rightIcon ? (
+          <Icon
+            name={rightIcon}
+            type={rightIconType}
+            onPress={onRightIconPress}
+            containerStyle={{marginHorizontal: RFValue(8)}}
+          />
+        ) : null}
       </View>
       {isError && <Text style={styles.errorInfo}>{errorInfo}</Text>}
     </>

@@ -1,13 +1,19 @@
-import {Button, HeaderNonLogin, PlatInput, TextInput} from '@components';
+import {
+  BackNonLogin,
+  Button,
+  HeaderNonLogin,
+  PlatInput,
+  TextInput,
+} from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
-import {Platform} from 'react-native';
-import { ScrollView } from 'react-native';
 import {
   Dimensions,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   View,
@@ -39,7 +45,8 @@ const RegistrasiForm = ({navigation}) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
-        <ScrollView>
+        <BackNonLogin navigation={navigation} />
+        <ScrollView showsVerticalScrollIndicator={false}>
           <HeaderNonLogin
             navigation={navigation}
             title={'Registrasi'}

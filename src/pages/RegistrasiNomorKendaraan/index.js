@@ -1,4 +1,4 @@
-import {Button, HeaderNonLogin, PlatInput} from '@components';
+import {BackNonLogin, Button, HeaderNonLogin, PlatInput} from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
 import {
@@ -45,6 +45,7 @@ const RegistrasiNomorKendaraan = ({navigation}) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
+        <BackNonLogin navigation={navigation} />
         <ScrollView>
           <HeaderNonLogin
             navigation={navigation}

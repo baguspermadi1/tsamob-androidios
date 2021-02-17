@@ -1,11 +1,11 @@
-import {Button, HeaderNonLogin, NumberInput} from '@components';
+import {BackNonLogin, Button, HeaderNonLogin, NumberInput} from '@components';
 import configs from '@configs';
 import React, {useState} from 'react';
-import {Platform} from 'react-native';
 import {
   Dimensions,
   Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -35,7 +35,8 @@ const RegistrasiBuatAkun = ({navigation}) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
-        <ScrollView scrollEnabled={false}>
+        <BackNonLogin navigation={navigation} />
+        <ScrollView>
           <HeaderNonLogin
             navigation={navigation}
             title={'Buat Akun'}

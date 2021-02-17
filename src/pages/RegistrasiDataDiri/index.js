@@ -1,4 +1,5 @@
 import {
+  BackNonLogin,
   Button,
   DatePicker,
   Dropdown,
@@ -8,20 +9,20 @@ import {
 } from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
-import {Platform} from 'react-native';
-import {Keyboard} from 'react-native';
-import {ScrollView} from 'react-native';
 import {
   Dimensions,
+  Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiDataDiri = ({navigation}) => {
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
@@ -55,6 +56,7 @@ const RegistrasiDataDiri = ({navigation}) => {
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
+        <BackNonLogin navigation={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
           <HeaderNonLogin
             navigation={navigation}
@@ -78,12 +80,10 @@ const RegistrasiDataDiri = ({navigation}) => {
             placeholder={'Tanggal Lahir'}
             style={{marginBottom: RFValue(8)}}
             valueText={tanggalLahir}
-            onChangeText={(text) => {
+            onSelect={(text) => {
               settanggalLahir(text);
             }}
-            selectText={title}
-            onSelect={(value) => settitle(value)}
-            idDropDown={'RBSheetTanggalLahir'}
+            idDropDown={'RBSheetTTL'}
           />
           <Dropdown
             placeholder={'Pilih Role'}
@@ -124,7 +124,7 @@ const RegistrasiDataDiri = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Registrasi Data Diri');
+              navigation.navigate('Registrasi Buat Password');
             }}
             disabled={isBtnDisabled}
           />
@@ -137,7 +137,7 @@ const RegistrasiDataDiri = ({navigation}) => {
 const styles = StyleSheet.create({
   body: {
     backgroundColor: configs.colors.neutral.Bluish.base,
-    paddingHorizontal: RFValue(16),
+    padding: RFValue(16),
     flex: 1,
   },
   containerBottom: {
