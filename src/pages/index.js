@@ -3,6 +3,7 @@ import RegistrasiBuatPassword from '../pages/RegistrasiBuatPassword';
 import RegistrasiDataDiri from '../pages/RegistrasiDataDiri';
 import RegistrasiForm from '../pages/RegistrasiForm';
 import RegistrasiNomorKendaraan from '../pages/RegistrasiNomorKendaraan';
+import RegistrasiPendaftaranBerhasil from '../pages/RegistrasiPendaftaranBerhasil';
 
 export {
   RegistrasiBuatAkun,
@@ -10,4 +11,5 @@ export {
   RegistrasiForm,
   RegistrasiDataDiri,
   RegistrasiBuatPassword,
+  RegistrasiPendaftaranBerhasil,
 };

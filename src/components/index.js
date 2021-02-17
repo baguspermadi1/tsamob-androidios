@@ -6,6 +6,7 @@ import TextInput from './TextInput';
 import InputWithSelector from './InputWithSelector';
 import Dropdown from './Dropdown';
 import DatePicker from './DatePicker';
+import BackNonLogin from './BackNonLogin';
 
 export {
   Button,
@@ -16,4 +17,5 @@ export {
   InputWithSelector,
   Dropdown,
   DatePicker,
+  BackNonLogin,
 };

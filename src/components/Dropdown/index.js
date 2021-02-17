@@ -30,14 +30,15 @@ const Dropdown = ({
 
   return (
     <>
-      <View
+      <TouchableOpacity
         style={{
           ...styles.containerComponentInput,
           borderColor: isError
             ? configs.colors.secondary.Ruby.light
             : configs.colors.neutral.White.base,
           ...style,
-        }}>
+        }}
+        onPress={() => this[RBSheet + idDropDown].open()}>
         <Text
           style={{
             color: configs.colors.neutral.Grey.dark,
@@ -47,9 +48,7 @@ const Dropdown = ({
           }}>
           {placeholder}
         </Text>
-        <TouchableOpacity
-          style={{flexDirection: 'row', alignItems: 'center'}}
-          onPress={() => this[RBSheet + idDropDown].open()}>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
           <Text
             style={{
               color: configs.colors.primary.Azure.darker,
@@ -66,8 +65,8 @@ const Dropdown = ({
             size={configs.sizes.Icon.XXL}
             color={configs.colors.primary.Azure.darker}
           />
-        </TouchableOpacity>
-      </View>
+        </View>
+      </TouchableOpacity>
       {isError && <Text style={styles.errorInfo}>{errorInfo}</Text>}
       <RBSheet
         ref={(ref) => {
