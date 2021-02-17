@@ -10,6 +10,7 @@ const NumberInput = ({
   isError,
   errorInfo,
   onChangeText,
+  focusAfterError,
 }) => {
   const [isFocus, setisFocus] = useState(false);
 
@@ -48,7 +49,10 @@ const NumberInput = ({
           containerStyle={styles.containerInput}
           inputContainerStyle={styles.inputContainer}
           keyboardType={'number-pad'}
-          onFocus={(e) => setisFocus(true)}
+          onFocus={(e) => {
+            setisFocus(true);
+            focusAfterError();
+          }}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
             onChangeText(text);

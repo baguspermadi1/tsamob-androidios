@@ -3,11 +3,15 @@ import React from 'react';
 import {StyleSheet, Text} from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const Header = ({navigation, title, description}) => {
+const Header = ({navigation, title, description, customDescription}) => {
   return (
     <>
       <Text style={styles.headerLabel}>{title}</Text>
-      <Text style={styles.headerDescription}>{description}</Text>
+      {customDescription ? (
+        customDescription
+      ) : (
+        <Text style={styles.headerDescription}>{description}</Text>
+      )}
     </>
   );
 };

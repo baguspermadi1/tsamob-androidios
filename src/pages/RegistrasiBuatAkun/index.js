@@ -50,7 +50,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             placeholder={'856-789-1011'}
             valueText={phoneNumber}
             onChangeText={(text) => {
-              if (text.length < 11 || text.length > 12) {
+              if (text.length < 10 || text.length > 11) {
                 setisPhoneError(true);
                 setisBtnDisabled(true);
               } else {
@@ -61,6 +61,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             }}
             isError={isPhoneError}
             errorInfo={'Nomor Tidak Valid'}
+            focusAfterError={() => setisPhoneError(false)}
           />
           <Loading isLoading={isLoading} />
         </ScrollView>

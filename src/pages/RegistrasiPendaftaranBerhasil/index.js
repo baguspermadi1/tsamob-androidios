@@ -7,14 +7,13 @@ import {
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
-  ScrollView,
   StatusBar,
   StyleSheet,
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiPendaftaranBerhasil = ({navigation}) => {
   return (
