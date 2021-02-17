@@ -1,4 +1,10 @@
-import {BackNonLogin, Button, HeaderNonLogin, NumberInput} from '@components';
+import {
+  BackNonLogin,
+  Button,
+  HeaderNonLogin,
+  Loading,
+  NumberInput,
+} from '@components';
 import configs from '@configs';
 import React, {useState} from 'react';
 import {
@@ -13,8 +19,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Overlay} from 'react-native-elements';
-import {OpacityDotsLoader} from 'react-native-indicator';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -58,15 +62,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             isError={isPhoneError}
             errorInfo={'Nomor Tidak Valid'}
           />
-          <Overlay overlayStyle={styles.loadingIndicator} isVisible={isLoading}>
-            <View>
-              <OpacityDotsLoader
-                color={configs.colors.primary.Sapphire.base}
-                size={configs.sizes.Icon.XS}
-                speed={150}
-              />
-            </View>
-          </Overlay>
+          <Loading isLoading={isLoading} />
         </ScrollView>
         <View style={styles.containerBottom}>
           <Text style={styles.descriptionText}>

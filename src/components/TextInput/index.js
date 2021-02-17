@@ -107,5 +107,6 @@ const styles = StyleSheet.create({
     fontSize: configs.sizes.Text.S,
     fontFamily: configs.fonts.OpenSans.Regular,
     alignSelf: 'flex-end',
+    marginBottom: RFValue(16),
   },
 });

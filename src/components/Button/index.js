@@ -17,7 +17,7 @@ const Button = ({text, onPress, disabled, type}) => {
           ? '#DDDDDD'
           : typeButton === 'solid'
           ? configs.colors.primary.Sapphire.base
-          : configs.colors.neutral.White.base,
+          : null,
         borderWidth: typeButton === 'solid' ? RFValue(0) : RFValue(1),
         borderColor: disabled
           ? '#DDDDDD'

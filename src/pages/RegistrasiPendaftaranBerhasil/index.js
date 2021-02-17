@@ -40,7 +40,10 @@ const RegistrasiPendaftaranBerhasil = ({navigation}) => {
             text={'Selesai'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Login');
+              navigation.reset({
+                index: 0,
+                routes: [{name: 'Login'}],
+              });
             }}
           />
         </View>
