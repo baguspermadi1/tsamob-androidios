@@ -1,38 +1,54 @@
 import {BackNonLogin, Button, HeaderNonLogin, TextInput} from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
-import {Text} from 'react-native';
-import {ScrollView} from 'react-native';
-import {Platform, View} from 'react-native';
-import {Keyboard} from 'react-native';
 import {
   Dimensions,
+  Keyboard,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
+  ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
+  View,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiBuatPassword = ({navigation}) => {
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [hidePassword, sethidePassword] = useState(true);
+  const [regexCheck1, setregexCheck1] = useState(false);
+  const [regexCheck2, setregexCheck2] = useState(false);
+  const [regexCheck3, setregexCheck3] = useState(false);
   const [password, setpassword] = useState('');
 
   useEffect(() => {
-    if (
-      new RegExp(/(?=.*\d)/).test(password) &&
-      new RegExp(/(?=.*[A-Z])/).test(password) &&
-      new RegExp(/[A-Za-z0-9]{6}/).test(password)
-    ) {
+    if (new RegExp(/(?=.*\d)/).test(password)) {
+      setregexCheck3(true);
+    } else {
+      setregexCheck3(false);
+    }
+    if (new RegExp(/(?=.*[A-Z])/).test(password)) {
+      setregexCheck2(true);
+    } else {
+      setregexCheck2(false);
+    }
+    if (new RegExp(/[A-Za-z0-9]{6}/).test(password)) {
+      setregexCheck1(true);
+    } else {
+      setregexCheck1(false);
+    }
+
+    if (regexCheck1 && regexCheck2 && regexCheck3) {
       setisBtnDisabled(false);
     } else {
       setisBtnDisabled(true);
     }
-  }, [password]);
+  }, [password, regexCheck1, regexCheck2, regexCheck3]);
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
@@ -63,77 +79,65 @@ const RegistrasiBuatPassword = ({navigation}) => {
             onRightIconPress={() => sethidePassword(!hidePassword)}
           />
 
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: RFValue(8),
-            }}>
+          <View style={styles.viewIcon}>
             <Icon
               name="check"
               size={configs.sizes.Icon.XL}
               containerStyle={{marginRight: RFValue(8)}}
               color={
-                new RegExp(/[A-Za-z0-9]{6}/).test(password)
+                regexCheck1
                   ? configs.colors.primary.Sapphire.base
                   : configs.colors.neutral.Grey.base
               }
             />
             <Text
               style={{
-                fontFamily: configs.fonts.OpenSans.Regular,
-                fontSize: configs.sizes.Text.M,
-                color: configs.colors.neutral.Grey.base,
+                ...styles.txtCheckRegex,
+                color: regexCheck1
+                  ? configs.colors.primary.Sapphire.darker
+                  : configs.colors.neutral.Grey.base,
               }}>
               Terdiri min. 6 karakter
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: RFValue(8),
-            }}>
+          <View style={styles.viewIcon}>
             <Icon
               name="check"
               size={configs.sizes.Icon.XL}
               containerStyle={{marginRight: RFValue(8)}}
               color={
-                new RegExp(/(?=.*[A-Z])/).test(password)
+                regexCheck2
                   ? configs.colors.primary.Sapphire.base
                   : configs.colors.neutral.Grey.base
               }
             />
             <Text
               style={{
-                fontFamily: configs.fonts.OpenSans.Regular,
-                fontSize: configs.sizes.Text.M,
-                color: configs.colors.neutral.Grey.base,
+                ...styles.txtCheckRegex,
+                color: regexCheck2
+                  ? configs.colors.primary.Sapphire.darker
+                  : configs.colors.neutral.Grey.base,
               }}>
               Mengandung Huruf Besar
             </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginBottom: RFValue(8),
-            }}>
+          <View style={styles.viewIcon}>
             <Icon
               name="check"
               size={configs.sizes.Icon.XL}
               containerStyle={{marginRight: RFValue(8)}}
               color={
-                new RegExp(/(?=.*\d)/).test(password)
+                regexCheck3
                   ? configs.colors.primary.Sapphire.base
                   : configs.colors.neutral.Grey.base
               }
             />
             <Text
               style={{
-                fontFamily: configs.fonts.OpenSans.Regular,
-                fontSize: configs.sizes.Text.M,
-                color: configs.colors.neutral.Grey.base,
+                ...styles.txtCheckRegex,
+                color: regexCheck3
+                  ? configs.colors.primary.Sapphire.darker
+                  : configs.colors.neutral.Grey.base,
               }}>
               Mengandung Angka
             </Text>
@@ -164,6 +168,15 @@ const styles = StyleSheet.create({
     bottom: RFValue(0),
     alignSelf: 'center',
     width: screenWidth * 0.9,
+  },
+  viewIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: RFValue(8),
+  },
+  txtCheckRegex: {
+    fontFamily: configs.fonts.OpenSans.Regular,
+    fontSize: configs.sizes.Text.M,
   },
 });
 
