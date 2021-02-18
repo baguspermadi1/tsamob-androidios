@@ -1,6 +1,6 @@
 import configs from '@configs';
-import React, {useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, View} from 'react-native';
 import {Input} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -12,6 +12,15 @@ const PlatInput = ({
   keyboardType,
 }) => {
   const [isFocus, setisFocus] = useState(false);
+  const [colorFocus, setcolorFocus] = useState(null);
+
+  useEffect(() => {
+    if (isFocus) {
+      setcolorFocus(configs.colors.primary.Sapphire.base);
+    } else {
+      setcolorFocus('#86939E');
+    }
+  }, [isFocus]);
 
   return (
     <>
@@ -25,7 +34,10 @@ const PlatInput = ({
         <Input
           value={valueText}
           label={label}
-          labelStyle={styles.label}
+          labelStyle={{
+            ...styles.label,
+            color: colorFocus,
+          }}
           placeholder={placeholder}
           containerStyle={styles.containerInput}
           inputContainerStyle={styles.inputContainer}

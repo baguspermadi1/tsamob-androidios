@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 import configs from '@configs';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';

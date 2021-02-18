@@ -30,7 +30,7 @@ const DatePicker = ({
   const [month, setmonth] = useState(new Date().getMonth() + 1);
   const [year, setyear] = useState(new Date().getFullYear());
   const [listDate, setlistDate] = useState([]);
-  const [listMonth, setlistMonth] = useState([
+  const [listMonth] = useState([
     'Jan',
     'Feb',
     'Mar',
@@ -44,7 +44,7 @@ const DatePicker = ({
     'Nov',
     'Dec',
   ]);
-  const [listYear, setlistYear] = useState(
+  const [listYear] = useState(
     Array.from({length: new Date().getFullYear()}, (_, i) =>
       (i + 1).toString(),
     ),
@@ -56,13 +56,13 @@ const DatePicker = ({
     } else if (month === 2 && year % 4 !== 0) {
       setlistDate(Array.from({length: 28}, (_, i) => (i + 1).toString()));
     } else if (
-      month !== 1 ||
-      month !== 3 ||
-      month !== 5 ||
-      month !== 7 ||
-      month !== 8 ||
-      month !== 10 ||
-      month !== 12
+      month === 1 ||
+      month === 3 ||
+      month === 5 ||
+      month === 7 ||
+      month === 8 ||
+      month === 10 ||
+      month === 12
     ) {
       setlistDate(Array.from({length: 31}, (_, i) => (i + 1).toString()));
     } else {
@@ -83,15 +83,7 @@ const DatePicker = ({
         <View style={styles.containerInput}>
           {valueText ? (
             <View>
-              <Text
-                style={{
-                  color: configs.colors.neutral.Grey.dark,
-                  fontSize: configs.sizes.Text.S,
-                  fontFamily: configs.fonts.OpenSans.Bold,
-                  marginBottom: RFValue(8),
-                }}>
-                {placeholder}
-              </Text>
+              <Text style={styles.placeholderActive}>{placeholder}</Text>
               <Text
                 style={{
                   fontSize: configs.sizes.Text.M,
@@ -101,14 +93,7 @@ const DatePicker = ({
               </Text>
             </View>
           ) : (
-            <Text
-              style={{
-                color: '#9AA5AE',
-                fontSize: configs.sizes.Text.L,
-                fontFamily: configs.fonts.OpenSans.Regular,
-              }}>
-              {placeholder}
-            </Text>
+            <Text style={styles.placeholderInactive}>{placeholder}</Text>
           )}
         </View>
         <Icon name={'arrow-drop-down'} size={configs.sizes.Icon.XXL} />
@@ -125,38 +110,36 @@ const DatePicker = ({
             borderRadius: RFValue(16),
           },
         }}>
-        <View style={{flex: 1, paddingHorizontal: RFValue(16)}}>
+        <View style={styles.rbSheetView}>
           <Text
             style={{
-              fontFamily: configs.fonts.OpenSans.Bold,
-              fontSize: configs.sizes.Text.L,
-              color: configs.colors.neutral.Grey.dark,
-              textAlign: 'center',
-              paddingVertical: RFValue(20),
+              ...styles.titleRBSheet,
+              marginBottom:
+                Platform.OS === 'android' ? RFValue(24) : RFValue(12),
             }}>
             Tanggal Lahir
           </Text>
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              marginBottom: RFValue(20),
+              ...styles.containerPicker,
+              marginBottom:
+                Platform.OS === 'android' ? RFValue(20) : RFValue(40),
             }}>
             <Picker
               style={{
-                width: screenWidth * 0.3,
+                width:
+                  Platform.OS === 'android'
+                    ? screenWidth * 0.28
+                    : screenWidth * 0.3,
                 height: screenWidth * 0.4,
-                marginBottom: RFValue(16),
               }}
-              lineColor="#000000"
-              lineGradientColorFrom="#008000"
-              lineGradientColorTo="#FF5733"
+              lineColor={configs.colors.primary.Sapphire.base}
               selectedValue={date - 1}
               itemSpace={32}
               itemStyle={{
                 color: configs.colors.primary.Sapphire.base,
                 fontSize: configs.sizes.Text.XL,
-                padding: Platform.OS === 'android' ? RFValue(16) : 16,
+                fontFamily: configs.fonts.OpenSans.Regular,
               }}
               onValueChange={(index) => setdate(index + 1)}>
               {listDate.map((value, i) => (
@@ -165,19 +148,19 @@ const DatePicker = ({
             </Picker>
             <Picker
               style={{
-                width: screenWidth * 0.3,
+                width:
+                  Platform.OS === 'android'
+                    ? screenWidth * 0.28
+                    : screenWidth * 0.3,
                 height: screenWidth * 0.4,
-                marginBottom: RFValue(16),
-                paddingHorizontal: Platform.OS === 'android' ? RFValue(16) : 0,
               }}
-              lineColor="#000000"
-              lineGradientColorFrom="#008000"
-              lineGradientColorTo="#FF5733"
+              lineColor={configs.colors.primary.Sapphire.base}
               selectedValue={month - 1}
-              itemSpace={30}
+              itemSpace={27}
               itemStyle={{
                 color: configs.colors.primary.Sapphire.base,
                 fontSize: configs.sizes.Text.XL,
+                fontFamily: configs.fonts.OpenSans.Regular,
               }}
               onValueChange={(index) => setmonth(index + 1)}>
               {listMonth.map((value, i) => (
@@ -186,19 +169,19 @@ const DatePicker = ({
             </Picker>
             <Picker
               style={{
-                width: screenWidth * 0.3,
+                width:
+                  Platform.OS === 'android'
+                    ? screenWidth * 0.28
+                    : screenWidth * 0.3,
                 height: screenWidth * 0.4,
-                marginBottom: RFValue(16),
-                paddingHorizontal: Platform.OS === 'android' ? RFValue(16) : 0,
               }}
-              lineColor="#000000"
-              lineGradientColorFrom="#008000"
-              lineGradientColorTo="#FF5733"
+              lineColor={configs.colors.primary.Sapphire.base}
               selectedValue={year - 1}
               itemSpace={32}
               itemStyle={{
                 color: configs.colors.primary.Sapphire.base,
                 fontSize: configs.sizes.Text.XL,
+                fontFamily: configs.fonts.OpenSans.Regular,
               }}
               onValueChange={(index) => setyear(index + 1)}>
               {listYear.map((value, i) => (
@@ -210,7 +193,7 @@ const DatePicker = ({
             text={'Pilih Tanggal'}
             onPress={() => {
               this[RBSheet + idDropDown].close();
-              onSelect(`${date}/${month}/${year}`);
+              onSelect(`${date}/${month > 9 ? month : '0' + month}/${year}`);
             }}
           />
         </View>
@@ -244,10 +227,23 @@ const styles = StyleSheet.create({
     fontFamily: configs.fonts.OpenSans.Regular,
     alignSelf: 'flex-end',
   },
-  rbSheetSeparator: {
-    backgroundColor: configs.colors.neutral.Grey.light,
-    width: '100%',
-    height: RFValue(1),
-  },
   rbSheetView: {padding: RFValue(16), flex: 1},
+  placeholderActive: {
+    color: '#86939E',
+    fontSize: configs.sizes.Text.S,
+    fontFamily: configs.fonts.OpenSans.Bold,
+    marginBottom: RFValue(8),
+  },
+  placeholderInactive: {
+    color: '#9AA5AE',
+    fontSize: configs.sizes.Text.L,
+    fontFamily: configs.fonts.OpenSans.Regular,
+  },
+  titleRBSheet: {
+    fontFamily: configs.fonts.OpenSans.Bold,
+    fontSize: configs.sizes.Text.L,
+    color: configs.colors.neutral.Grey.dark,
+    textAlign: 'center',
+  },
+  containerPicker: {flexDirection: 'row', justifyContent: 'space-between'},
 });

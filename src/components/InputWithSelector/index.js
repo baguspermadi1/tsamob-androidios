@@ -1,8 +1,8 @@
 import configs from '@configs';
 import React, {useState} from 'react';
-import {FlatList} from 'react-native';
 import {
   Dimensions,
+  FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -12,7 +12,7 @@ import {Icon, Input} from 'react-native-elements';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const {height: screenHeight} = Dimensions.get('screen');
 
 const InputWithSelector = ({
   valueText,
@@ -42,7 +42,7 @@ const InputWithSelector = ({
           ...style,
         }}>
         <TouchableOpacity
-          style={{flexDirection: 'row', alignItems: 'center'}}
+          style={styles.containerDrop}
           onPress={() => this[RBSheet + idDropDown].open()}>
           <Text
             style={{
@@ -89,7 +89,7 @@ const InputWithSelector = ({
           },
         }}>
         <View
-          style={{flex: 1}}
+          style={styles.viewRBSheet}
           onLayout={(event) =>
             setheightRBSheet(event.nativeEvent.layout.height)
           }>
@@ -102,41 +102,18 @@ const InputWithSelector = ({
             )}
             renderItem={({item, index}) => (
               <TouchableOpacity
-                style={{
-                  height: heightRBSheet * 0.45,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                }}
+                style={{...styles.itemDropdown, height: heightRBSheet * 0.45}}
                 onPress={() => onSelect(item)}>
-                <Text
-                  style={{
-                    fontFamily: configs.fonts.OpenSans.Bold,
-                    fontSize: configs.sizes.Text.XL,
-                    color: configs.colors.neutral.Grey.dark,
-                    alignSelf: 'center',
-                    textAlign: 'center',
-                    flex: 1,
-                  }}>
-                  {item}
-                </Text>
+                <Text style={styles.itemTItle}>{item}</Text>
                 {selectText === item ? (
                   <Icon
                     name={'check-circle'}
                     size={configs.sizes.Icon.XXL}
                     color={configs.colors.primary.Sapphire.base}
-                    containerStyle={{
-                      alignSelf: 'center',
-                      justifyContent: 'flex-end',
-                    }}
+                    containerStyle={styles.containerChoosen}
                   />
                 ) : (
-                  <View
-                    style={{
-                      alignSelf: 'center',
-                      justifyContent: 'flex-end',
-                      width: configs.sizes.Icon.XXL,
-                    }}
-                  />
+                  <View style={styles.containerChoosen} />
                 )}
               </TouchableOpacity>
             )}
@@ -177,5 +154,24 @@ const styles = StyleSheet.create({
     width: '100%',
     height: RFValue(1),
   },
-  rbSheetView: {padding: RFValue(16), flex: 1},
+  rbSheetView: {padding: RFValue(16), flex: 1, marginLeft: RFValue(24)},
+  containerChoosen: {
+    alignSelf: 'center',
+    justifyContent: 'flex-end',
+    width: configs.sizes.Icon.XXL,
+  },
+  itemTItle: {
+    fontFamily: configs.fonts.OpenSans.Bold,
+    fontSize: configs.sizes.Text.XL,
+    color: configs.colors.neutral.Grey.dark,
+    alignSelf: 'center',
+    textAlign: 'center',
+    flex: 1,
+  },
+  itemDropdown: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  containerDrop: {flexDirection: 'row', alignItems: 'center'},
+  viewRBSheet: {flex: 1},
 });

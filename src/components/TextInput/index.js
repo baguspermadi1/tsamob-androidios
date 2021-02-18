@@ -1,5 +1,5 @@
 import configs from '@configs';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {Input, Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
@@ -23,6 +23,33 @@ const TextInput = ({
   focusAfterError,
 }) => {
   const [isFocus, setisFocus] = useState(false);
+  const [colorFocus, setcolorFocus] = useState(false);
+  const [height, setheight] = useState('0%');
+  const [width, setwidth] = useState('0%');
+
+  useEffect(() => {
+    if (isFocus) {
+      setcolorFocus(configs.colors.primary.Sapphire.base);
+    } else {
+      setcolorFocus('#86939E');
+    }
+  }, [isFocus]);
+
+  useEffect(() => {
+    if (valueText || isFocus) {
+      setheight('70%');
+    } else {
+      setheight('60%');
+    }
+  }, [isFocus, valueText]);
+
+  useEffect(() => {
+    if (leftIcon || rightIcon) {
+      setwidth('88%');
+    } else {
+      setwidth('100%');
+    }
+  }, [leftIcon, rightIcon]);
 
   return (
     <>
@@ -48,9 +75,8 @@ const TextInput = ({
         <Input
           label={valueText || isFocus ? placeholder : ''}
           labelStyle={{
-            color: configs.colors.neutral.Grey.dark,
-            fontSize: configs.sizes.Text.S,
-            fontFamily: configs.fonts.OpenSans.Regular,
+            ...styles.label,
+            color: colorFocus,
           }}
           inputStyle={{
             fontSize: configs.sizes.Text.M,
@@ -60,14 +86,16 @@ const TextInput = ({
           value={valueText}
           placeholder={valueText || isFocus ? placeholderActive : placeholder}
           containerStyle={{
-            height: valueText || isFocus ? '70%' : '60%',
-            width: leftIcon || rightIcon ? '88%' : '100%',
+            height: height,
+            width: width,
           }}
           inputContainerStyle={styles.inputContainer}
           keyboardType={keyboardType ? keyboardType : 'default'}
           onFocus={(e) => {
             setisFocus(true);
-            focusAfterError();
+            if (focusAfterError) {
+              focusAfterError();
+            }
           }}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
@@ -112,5 +140,9 @@ const styles = StyleSheet.create({
     fontFamily: configs.fonts.OpenSans.Regular,
     alignSelf: 'flex-end',
     marginBottom: RFValue(16),
+  },
+  label: {
+    fontSize: configs.sizes.Text.S,
+    fontFamily: configs.fonts.OpenSans.Regular,
   },
 });
