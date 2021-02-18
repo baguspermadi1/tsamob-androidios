@@ -1,7 +1,6 @@
 import {Button, HeaderNonLogin, Loading, TextInput} from '@components';
 import configs from '@configs';
 import React, {useState} from 'react';
-import {Text} from 'react-native';
 import {
   Dimensions,
   Keyboard,
@@ -11,12 +10,13 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
+  Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
+import CountDown from 'react-native-countdown-component';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
-import CountDown from 'react-native-countdown-component';
-import {TouchableOpacity} from 'react-native';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
@@ -73,20 +73,9 @@ const Login = ({navigation}) => {
           />
 
           <TouchableOpacity
-            style={{
-              width: screenWidth / 3,
-              alignSelf: 'flex-end',
-            }}
+            style={styles.forgotPassword}
             onPress={() => navigation.navigate('Lupa Password')}>
-            <Text
-              style={{
-                color: configs.colors.primary.Sapphire.darker,
-                fontSize: configs.sizes.Text.M,
-                fontFamily: configs.fonts.OpenSans.Bold,
-                textDecorationLine: 'underline',
-              }}>
-              Lupa Password
-            </Text>
+            <Text style={styles.forgotPasswordTxt}>Lupa Password</Text>
           </TouchableOpacity>
         </ScrollView>
         <View style={styles.containerBottom}>
@@ -224,6 +213,16 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(8),
   },
   rbSheetView: {padding: RFValue(16), flex: 1},
+  forgotPassword: {
+    width: screenWidth / 3,
+    alignSelf: 'flex-end',
+  },
+  forgotPasswordTxt: {
+    color: configs.colors.primary.Sapphire.darker,
+    fontSize: configs.sizes.Text.M,
+    fontFamily: configs.fonts.OpenSans.Bold,
+    textDecorationLine: 'underline',
+  },
 });
 
 export default Login;

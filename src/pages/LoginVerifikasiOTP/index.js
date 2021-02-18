@@ -2,7 +2,6 @@ import {BackNonLogin, Button, HeaderNonLogin, Loading} from '@components';
 import configs from '@configs';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import React, {useState} from 'react';
-import { TouchableOpacity } from 'react-native';
 import {
   Dimensions,
   Keyboard,
@@ -13,12 +12,13 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 import {RFValue} from 'react-native-responsive-fontsize';
 
-const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const {width: screenWidth} = Dimensions.get('screen');
 
 const LoginVerifikasiOTP = ({navigation}) => {
   const [isLoading, setisLoading] = useState(false);
@@ -71,18 +71,10 @@ const LoginVerifikasiOTP = ({navigation}) => {
             code={otp}
             autoFocusOnLoad
             codeInputFieldStyle={{
-              width: RFValue(64),
-              height: RFValue(64),
-              borderWidth: 1,
+              ...styles.codeInputField,
               borderColor: isErrorOTP
                 ? configs.colors.secondary.Ruby.light
                 : configs.colors.neutral.White.base,
-              borderRadius: RFValue(6),
-              backgroundColor: 'white',
-              color: configs.colors.primary.Sapphire.base,
-              fontSize: configs.sizes.Text.M * 2,
-              justifyContent: 'center',
-              alignItems: 'center',
             }}
             codeInputHighlightStyle={{
               borderColor: configs.colors.primary.Sapphire.base,
@@ -102,21 +94,13 @@ const LoginVerifikasiOTP = ({navigation}) => {
               color: configs.colors.primary.Sapphire.darker,
               fontSize: configs.sizes.Text.L,
               fontFamily: configs.fonts.OpenSans.Regular,
-              marginTop: RFValue(48),
+              marginTop: isErrorOTP ? RFValue(16) : RFValue(48),
             }}>
             Belum menerima kode verifikasi?
           </Text>
           {isTimeout ? (
             <TouchableOpacity onPress={() => setisTimeout(false)}>
-              <Text
-                style={{
-                  color: configs.colors.primary.Sapphire.darker,
-                  fontSize: configs.sizes.Text.L,
-                  fontFamily: configs.fonts.OpenSans.Bold,
-                  textDecorationLine: 'underline',
-                }}>
-                Kirim Ulang
-              </Text>
+              <Text style={styles.trySend}>Kirim Ulang</Text>
             </TouchableOpacity>
           ) : (
             <CountDown
@@ -138,9 +122,7 @@ const LoginVerifikasiOTP = ({navigation}) => {
                 height: RFValue(24),
                 width: RFValue(20),
               }}
-              style={{
-                alignSelf: 'flex-start',
-              }}
+              style={styles.countdown}
               onFinish={() => setisTimeout(true)}
             />
           )}
@@ -184,6 +166,26 @@ const styles = StyleSheet.create({
     fontFamily: configs.fonts.OpenSans.Regular,
     alignSelf: 'flex-end',
     marginBottom: RFValue(16),
+  },
+  codeInputField: {
+    width: RFValue(64),
+    height: RFValue(64),
+    borderWidth: 1,
+    borderRadius: RFValue(6),
+    backgroundColor: 'white',
+    color: configs.colors.primary.Sapphire.base,
+    fontSize: configs.sizes.Text.M * 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  trySend: {
+    color: configs.colors.primary.Sapphire.darker,
+    fontSize: configs.sizes.Text.L,
+    fontFamily: configs.fonts.OpenSans.Bold,
+    textDecorationLine: 'underline',
+  },
+  countdown: {
+    alignSelf: 'flex-start',
   },
 });
 
