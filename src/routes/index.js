@@ -8,6 +8,8 @@ import {
   RegistrasiForm,
   RegistrasiNomorKendaraan,
   RegistrasiPendaftaranBerhasil,
+  Login,
+  LoginVerifikasiOTP,
 } from '@pages';
 
 const Stack = createStackNavigator();
@@ -22,13 +24,15 @@ const StackScreen = [
     name: 'Registrasi Pendaftaran Berhasil',
     component: RegistrasiPendaftaranBerhasil,
   },
+  {name: 'Login', component: Login},
+  {name: 'Login Verifikasi OTP', component: LoginVerifikasiOTP},
 ];
 
 function Router() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Registrasi Buat Akun"
+        initialRouteName="Login"
         screenOptions={{headerShown: false}}>
         {StackScreen.map((item, index) => (
           <Stack.Screen
