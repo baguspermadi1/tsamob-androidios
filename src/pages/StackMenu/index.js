@@ -1,14 +1,53 @@
 import configs from '@configs';
 import {StackHome, StackNotifikasi, StackProfile, StackRequest} from '@pages';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  BackHandler,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Image} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 const Tab = createBottomTabNavigator();
+let backPressed = 0;
 
 const CustomTabBar = (props) => {
+  useEffect(() => {
+    backPressed = 0;
+    BackHandler.addEventListener('hardwareBackPress', backAction);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backAction);
+    };
+  });
+
+  console.log('focus', props.navigation.isFocused());
+  console.log('navigation', props.navigation);
+
+  const backAction = () => {
+    if (!props.navigation.isFocused()) {
+      backPressed = 0;
+      return false;
+    }
+
+    if (backPressed <= 0) {
+      if (activeRoute !== configs.screens.stack.home) {
+        props.navigation.navigate(configs.screens.stack.home);
+        backPressed = 0;
+      } else {
+        ToastAndroid.show('Press back again to close app', ToastAndroid.SHORT);
+        backPressed = backPressed + 1;
+      }
+    } else {
+      BackHandler.exitApp();
+    }
+    return true;
+  };
+
   const navigateToFirstScreen = () => {
     props.navigation.navigate(configs.screens.stack.home);
   };
