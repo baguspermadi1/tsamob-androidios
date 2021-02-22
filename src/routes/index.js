@@ -1,38 +1,53 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import React from 'react';
+import configs from '@configs';
 import {
+  Login,
+  LoginVerifikasiOTP,
+  LupaPassword,
+  LupaPasswordBerhasil,
+  LupaPasswordEmail,
+  LupaPasswordEmailLink,
   RegistrasiBuatAkun,
   RegistrasiBuatPassword,
   RegistrasiDataDiri,
   RegistrasiForm,
   RegistrasiNomorKendaraan,
   RegistrasiPendaftaranBerhasil,
-  Login,
-  LoginVerifikasiOTP,
 } from '@pages';
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import React from 'react';
 
 const Stack = createStackNavigator();
 
 const StackScreen = [
-  {name: 'Registrasi Buat Akun', component: RegistrasiBuatAkun},
-  {name: 'Registrasi Nomor Kendaraan', component: RegistrasiNomorKendaraan},
-  {name: 'Registrasi Form', component: RegistrasiForm},
-  {name: 'Registrasi Data Diri', component: RegistrasiDataDiri},
-  {name: 'Registrasi Buat Password', component: RegistrasiBuatPassword},
+  {name: configs.screens.regist.buatAkun, component: RegistrasiBuatAkun},
   {
-    name: 'Registrasi Pendaftaran Berhasil',
+    name: configs.screens.regist.noKendaraan,
+    component: RegistrasiNomorKendaraan,
+  },
+  {name: configs.screens.regist.form, component: RegistrasiForm},
+  {name: configs.screens.regist.dataDiri, component: RegistrasiDataDiri},
+  {
+    name: configs.screens.regist.buatPassword,
+    component: RegistrasiBuatPassword,
+  },
+  {
+    name: configs.screens.regist.daftarBerhasil,
     component: RegistrasiPendaftaranBerhasil,
   },
-  {name: 'Login', component: Login},
-  {name: 'Login Verifikasi OTP', component: LoginVerifikasiOTP},
+  {name: configs.screens.login.main, component: Login},
+  {name: configs.screens.login.verifikasi, component: LoginVerifikasiOTP},
+  {name: configs.screens.forgotPwd.email, component: LupaPasswordEmail},
+  {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
+  {name: configs.screens.forgotPwd.main, component: LupaPassword},
+  {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
 ];
 
 function Router() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName={configs.screens.login.main}
         screenOptions={{headerShown: false}}>
         {StackScreen.map((item, index) => (
           <Stack.Screen
