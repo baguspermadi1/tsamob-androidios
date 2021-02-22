@@ -17,6 +17,13 @@ const screens = {
     email: 'Lupa Password Email',
     emailLink: 'Lupa Password Email Link',
   },
+  stack: {
+    main: 'Stack Menu',
+    home: 'Home',
+    request: 'Request',
+    notifikasi: 'Notifikasi',
+    profile: 'Profile',
+  },
 };
 
 export default screens;

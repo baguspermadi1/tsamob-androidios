@@ -3,6 +3,7 @@
     "baseUrl": "",
     "paths": {
       "@images/*": ["assets/images/*"],
+      "@icons/*": ["assets/icons/*"],
       "@configs": ["src/configs"],
       "@actions/*": ["src/actions/*"],
       "@components": ["src/components"],

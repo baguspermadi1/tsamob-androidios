@@ -12,6 +12,11 @@ import {
   RegistrasiForm,
   RegistrasiNomorKendaraan,
   RegistrasiPendaftaranBerhasil,
+  StackHome,
+  StackMenu,
+  StackNotifikasi,
+  StackProfile,
+  StackRequest,
 } from '@pages';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -41,6 +46,11 @@ const StackScreen = [
   {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
   {name: configs.screens.forgotPwd.main, component: LupaPassword},
   {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
+  {name: configs.screens.stack.main, component: StackMenu},
+  {name: configs.screens.stack.home, component: StackHome},
+  {name: configs.screens.stack.request, component: StackRequest},
+  {name: configs.screens.stack.notifikasi, component: StackNotifikasi},
+  {name: configs.screens.stack.profile, component: StackProfile},
 ];
 
 function Router() {
