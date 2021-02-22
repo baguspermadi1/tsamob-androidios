@@ -137,7 +137,10 @@ const LoginVerifikasiOTP = ({navigation}) => {
                   'kode verifikasi sudah tidak berlaku, silahkan kirim ulang',
                 );
                 setisErrorOTP(true);
-                navigation.navigate(configs.screens.stack.main);
+                navigation.reset({
+                  index: 0,
+                  routes: [{name: configs.screens.stack.main}],
+                });
               }, 1000);
             }}
           />
