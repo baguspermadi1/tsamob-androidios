@@ -91,7 +91,7 @@ const RegistrasiForm = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Registrasi Data Diri');
+              navigation.navigate(configs.screens.regist.dataDiri);
             }}
             disabled={isBtnDisabled}
           />

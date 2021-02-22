@@ -124,7 +124,7 @@ const RegistrasiDataDiri = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Registrasi Buat Password');
+              navigation.navigate(configs.screens.regist.buatPassword);
             }}
             disabled={isBtnDisabled}
           />

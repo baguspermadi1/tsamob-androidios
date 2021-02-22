@@ -41,9 +41,6 @@ const LoginVerifikasiOTP = ({navigation}) => {
           <HeaderNonLogin
             navigation={navigation}
             title={'Verifikasi'}
-            description={
-              'Masukan kode verifikasi yang telah dikirimkan melalu sms ke No. '
-            }
             customDescription={
               <Text
                 style={{

@@ -74,7 +74,9 @@ const Login = ({navigation}) => {
 
           <TouchableOpacity
             style={styles.forgotPassword}
-            onPress={() => navigation.navigate('Lupa Password')}>
+            onPress={() =>
+              navigation.navigate(configs.screens.forgotPwd.email)
+            }>
             <Text style={styles.forgotPasswordTxt}>Lupa Password</Text>
           </TouchableOpacity>
         </ScrollView>
@@ -112,7 +114,7 @@ const Login = ({navigation}) => {
             type={'outline'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Registrasi Buat Akun');
+              navigation.navigate(configs.screens.regist.buatAkun);
             }}
           />
         </View>
@@ -156,7 +158,7 @@ const Login = ({navigation}) => {
                 text={'Mengerti'}
                 onPress={() => {
                   this.RBSheet.close();
-                  navigation.navigate('Login Verifikasi OTP');
+                  navigation.navigate(configs.screens.login.verifikasi);
                 }}
               />
               {rbSheetTitleActive.includes('Berlaku') && (
@@ -175,6 +177,7 @@ const Login = ({navigation}) => {
                   text={'Lupa Password'}
                   onPress={() => {
                     console.log('Lupa Password');
+                    navigation.navigate(configs.screens.forgotPwd.email);
                     this.RBSheet.close();
                   }}
                 />

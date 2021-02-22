@@ -148,7 +148,7 @@ const RegistrasiBuatPassword = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate('Registrasi Pendaftaran Berhasil');
+              navigation.navigate(configs.screens.regist.daftarBerhasil);
             }}
             disabled={isBtnDisabled}
           />

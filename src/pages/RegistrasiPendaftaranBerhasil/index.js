@@ -41,7 +41,7 @@ const RegistrasiPendaftaranBerhasil = ({navigation}) => {
               Keyboard.dismiss();
               navigation.reset({
                 index: 0,
-                routes: [{name: 'Login'}],
+                routes: [{name: configs.screens.login.main}],
               });
             }}
           />

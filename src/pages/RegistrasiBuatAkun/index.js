@@ -94,7 +94,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
               setisLoading(true);
               setTimeout(() => {
                 setisLoading(false);
-                navigation.navigate('Registrasi Nomor Kendaraan', {
+                navigation.navigate(configs.screens.regist.noKendaraan, {
                   phoneNumber: phoneNumber,
                 });
               }, 2000);

@@ -129,7 +129,7 @@ const RegistrasiNomorKendaraan = ({navigation}) => {
                 onPress={() => {
                   console.log('Lengkapi Data');
                   this.RBSheet.close();
-                  navigation.navigate('Registrasi Form');
+                  navigation.navigate(configs.screens.regist.form);
                 }}
               />
               {rbSheetTitleActive.includes('Berlaku') && (
