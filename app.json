@@ -1,4 +1,10 @@
 {
   "name": "TSA_MOB",
-  "displayName": "TSA_MOB"
+  "displayName": "TRAC Service",
+  "environment": "development",
+  "url": {
+    "prod": "https://prod.sera-tsa.com",
+    "qa": "https://qa.sera-tsa.com",
+    "dev": "https://dev.sera-tsa.com"
+  }
 }
