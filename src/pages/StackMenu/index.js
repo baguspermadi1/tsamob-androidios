@@ -178,7 +178,10 @@ const CustomTabBar = (props) => {
 
 const StackMenu = ({navigation}) => {
   return (
-    <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+    <Tab.Navigator
+      tabBar={(props) => <CustomTabBar {...props} />}
+      initialRouteName={configs.screens.stack.home}
+      sceneContainerStyle={styles.sceneStyle}>
       <Tab.Screen name={configs.screens.stack.home} component={StackHome} />
       <Tab.Screen
         name={configs.screens.stack.request}
@@ -220,8 +223,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonMenu: {
-    height: RFValue(60),
-    width: RFValue(60),
+    height: RFValue(56),
+    width: RFValue(56),
     margin: RFValue(8),
     borderRadius: RFValue(12),
     justifyContent: 'center',
@@ -239,4 +242,7 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(6),
     resizeMode: 'contain',
   },
+  sceneStyle: {
+    backgroundColor: configs.colors.neutral.White.base
+  }
 });
