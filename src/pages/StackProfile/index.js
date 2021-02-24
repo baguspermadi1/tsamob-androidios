@@ -1,9 +1,10 @@
-import {Button} from '@components';
+import {Button, Loading} from '@components';
 import configs from '@configs';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Dimensions,
   FlatList,
+  RefreshControl,
   StatusBar,
   StyleSheet,
   Text,
@@ -17,11 +18,24 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
 const StackProfile = ({navigation}) => {
+  const [isLoading, setisLoading] = useState(false);
+
   return (
-    <SafeAreaView style={styles.safeAreaBottom} edges={['top']}>
+    <SafeAreaView>
       <StatusBar barStyle="light-content" />
+      <Loading isLoading={isLoading} />
       <FlatList
-        bounces={false}
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => {
+              setisLoading(true);
+              setTimeout(() => {
+                setisLoading(false);
+              }, 2000);
+            }}
+            refreshing={false}
+          />
+        }
         ListHeaderComponent={() => (
           <View style={styles.containerTop}>
             <View style={styles.containerImage}>
@@ -94,13 +108,22 @@ const StackProfile = ({navigation}) => {
         )}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
+      <View style={styles.scrollinset}>
+        <View style={styles.topBounce} />
+        <View style={styles.bottomBounce} />
+      </View>
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeAreaBottom: {
+  topBounce: {
+    flex: 1,
     backgroundColor: configs.colors.primary.Sapphire.base,
+  },
+  bottomBounce: {
+    flex: 1,
+    backgroundColor: configs.colors.neutral.White.base,
   },
   containerTop: {
     backgroundColor: configs.colors.primary.Sapphire.base,
@@ -143,6 +166,14 @@ const styles = StyleSheet.create({
     height: RFValue(1),
     width: screenWidth - RFValue(24),
     alignSelf: 'flex-end',
+  },
+  scrollinset: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    zIndex: -1,
   },
 });
 
