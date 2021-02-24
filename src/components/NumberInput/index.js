@@ -49,6 +49,7 @@ const NumberInput = ({
           inputStyle={{
             fontSize: configs.sizes.Text.M,
             fontFamily: configs.fonts.OpenSans.SemiBold,
+            color: configs.colors.primary.Sapphire.darker,
           }}
           containerStyle={styles.containerInput}
           inputContainerStyle={styles.inputContainer}
