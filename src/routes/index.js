@@ -10,8 +10,6 @@ import {
   RegistrasiBuatAkun,
   RegistrasiBuatPassword,
   RegistrasiDataDiri,
-  RegistrasiForm,
-  RegistrasiNomorKendaraan,
   RegistrasiPendaftaranBerhasil,
   StackHome,
   StackMenu,
@@ -27,11 +25,6 @@ const Stack = createStackNavigator();
 
 const StackScreen = [
   {name: configs.screens.regist.buatAkun, component: RegistrasiBuatAkun},
-  {
-    name: configs.screens.regist.noKendaraan,
-    component: RegistrasiNomorKendaraan,
-  },
-  {name: configs.screens.regist.form, component: RegistrasiForm},
   {name: configs.screens.regist.dataDiri, component: RegistrasiDataDiri},
   {
     name: configs.screens.regist.buatPassword,
