@@ -96,7 +96,7 @@ const InputWithSelector = ({
           <FlatList
             data={['Mr', 'Mrs']}
             contentContainerStyle={styles.rbSheetView}
-            keyExtractor={(item) => item.toString()}
+            keyExtractor={(item, index) => item + index}
             ItemSeparatorComponent={() => (
               <View style={styles.rbSheetSeparator} />
             )}
