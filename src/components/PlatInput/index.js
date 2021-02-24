@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: configs.sizes.Text.M,
-    fontFamily: configs.fonts.OpenSans.Regular,
+    fontFamily: configs.fonts.OpenSans.SemiBold,
     color: configs.colors.primary.Sapphire.dark,
   },
   inputContainer: {borderBottomWidth: 0},

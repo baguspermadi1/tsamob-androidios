@@ -24,6 +24,7 @@ const InputWithSelector = ({
   selectText,
   onSelect,
   idDropDown,
+  dataSelector,
 }) => {
   const [isFocus, setisFocus] = useState(false);
   const [heightRBSheet, setheightRBSheet] = useState(0);
@@ -66,6 +67,10 @@ const InputWithSelector = ({
         <Input
           value={valueText}
           placeholder={placeholder}
+          inputStyle={{
+            fontSize: configs.sizes.Text.M,
+            fontFamily: configs.fonts.OpenSans.SemiBold,
+          }}
           containerStyle={styles.containerInput}
           inputContainerStyle={styles.inputContainer}
           keyboardType={'default'}
@@ -94,7 +99,7 @@ const InputWithSelector = ({
             setheightRBSheet(event.nativeEvent.layout.height)
           }>
           <FlatList
-            data={['Mr', 'Mrs']}
+            data={dataSelector}
             contentContainerStyle={styles.rbSheetView}
             keyExtractor={(item, index) => item + index}
             ItemSeparatorComponent={() => (

@@ -87,7 +87,7 @@ const DatePicker = ({
               <Text
                 style={{
                   fontSize: configs.sizes.Text.M,
-                  fontFamily: configs.fonts.OpenSans.Regular,
+                  fontFamily: configs.fonts.OpenSans.SemiBold,
                 }}>
                 {valueText}
               </Text>

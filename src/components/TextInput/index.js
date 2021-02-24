@@ -15,9 +15,11 @@ const TextInput = ({
   keyboardType,
   showPassword,
   rightIcon,
+  rightIconColor,
   rightIconType,
   onRightIconPress,
   leftIcon,
+  leftIconColor,
   leftIconType,
   onLeftIconPress,
   focusAfterError,
@@ -70,6 +72,9 @@ const TextInput = ({
             type={leftIconType}
             onPress={onLeftIconPress}
             containerStyle={{marginHorizontal: RFValue(8)}}
+            color={
+              leftIconColor ? leftIconColor : configs.colors.neutral.Grey.base
+            }
           />
         ) : null}
         <Input
@@ -80,7 +85,7 @@ const TextInput = ({
           }}
           inputStyle={{
             fontSize: configs.sizes.Text.M,
-            fontFamily: configs.fonts.OpenSans.Regular,
+            fontFamily: configs.fonts.OpenSans.SemiBold,
           }}
           secureTextEntry={showPassword}
           value={valueText}
@@ -108,6 +113,9 @@ const TextInput = ({
             type={rightIconType}
             onPress={onRightIconPress}
             containerStyle={{marginHorizontal: RFValue(8)}}
+            color={
+              rightIconColor ? rightIconColor : configs.colors.neutral.Grey.base
+            }
           />
         ) : null}
       </View>

@@ -6,7 +6,7 @@ import {RFValue} from 'react-native-responsive-fontsize';
 const Header = ({navigation, title, description, customDescription}) => {
   return (
     <>
-      <Text style={styles.headerLabel}>{title}</Text>
+      {title && <Text style={styles.headerLabel}>{title}</Text>}
       {customDescription ? (
         customDescription
       ) : (
