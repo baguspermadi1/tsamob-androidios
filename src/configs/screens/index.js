@@ -24,6 +24,14 @@ const screens = {
     notifikasi: 'Notifikasi',
     profile: 'Profile',
   },
+  profile: {
+    daftarPemakaiKendaraan: 'Daftar Pemakai Kendaraan',
+    viewUnit: 'View Unit',
+    requestUMD: 'Request Update Unit',
+    gantiPass: 'Ganti Password',
+    hubungiKami: 'Hubungi Kami',
+    logout: 'Keluar',
+  },
 };
 
 export default screens;

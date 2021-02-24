@@ -6,6 +6,7 @@ import {
   LupaPasswordBerhasil,
   LupaPasswordEmail,
   LupaPasswordEmailLink,
+  ProfileGantiPassword,
   RegistrasiBuatAkun,
   RegistrasiBuatPassword,
   RegistrasiDataDiri,
@@ -51,6 +52,7 @@ const StackScreen = [
   {name: configs.screens.stack.request, component: StackRequest},
   {name: configs.screens.stack.notifikasi, component: StackNotifikasi},
   {name: configs.screens.stack.profile, component: StackProfile},
+  {name: configs.screens.profile.gantiPass, component: ProfileGantiPassword},
 ];
 
 function Router() {

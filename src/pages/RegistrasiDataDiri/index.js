@@ -26,7 +26,7 @@ const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiDataDiri = ({navigation}) => {
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
-  const [title, settitle] = useState('Mr');
+  const [title, settitle] = useState('Bapak');
   const [namaLengkap, setnamaLengkap] = useState('');
   const [tanggalLahir, settanggalLahir] = useState('');
   const [role, setrole] = useState('PIC');
@@ -75,6 +75,7 @@ const RegistrasiDataDiri = ({navigation}) => {
             selectText={title}
             onSelect={(value) => settitle(value)}
             idDropDown={'RBSheetNamaLengkap'}
+            dataSelector={['Bapak', 'Ibu']}
           />
           <DatePicker
             placeholder={'Tanggal Lahir'}

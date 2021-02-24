@@ -15,6 +15,7 @@ import StackHome from '../pages/StackHome';
 import StackNotifikasi from '../pages/StackNotifikasi';
 import StackProfile from '../pages/StackProfile';
 import StackRequest from '../pages/StackRequest';
+import ProfileGantiPassword from '../pages/ProfileGantiPassword';
 
 export {
   RegistrasiBuatAkun,
@@ -34,4 +35,5 @@ export {
   StackRequest,
   StackNotifikasi,
   StackProfile,
+  ProfileGantiPassword,
 };

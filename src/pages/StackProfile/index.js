@@ -16,6 +16,17 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
+const menu = [
+  {
+    name: 'Daftar Pemakai Kendaraan',
+    screen: configs.screens.profile.daftarPemakaiKendaraan,
+  },
+  {name: 'View Unit', screen: configs.screens.profile.viewUnit},
+  {name: 'Request Update Unit', screen: configs.screens.profile.requestUMD},
+  {name: 'Ganti Password', screen: configs.screens.profile.gantiPass},
+  {name: 'Hubungi Kami', screen: configs.screens.profile.hubungiKami},
+  {name: 'Keluar', screen: configs.screens.profile.logout},
+];
 
 const StackProfile = ({navigation}) => {
   const [isLoading, setisLoading] = useState(false);
@@ -75,24 +86,19 @@ const StackProfile = ({navigation}) => {
           paddingBottom: screenHeight * 0.15,
         }}
         showsVerticalScrollIndicator={false}
-        data={[
-          'Daftar Pemakai Kendaraan',
-          'View Unit',
-          'Request Update Unit',
-          'Ganti Password',
-          'Hubungi Kami',
-          'Keluar',
-        ]}
+        data={menu}
         keyExtractor={(item, index) => item + index}
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={styles.containerMenu}
             onPress={() => {
-              if (item.toLowerCase().includes('keluar')) {
+              if (item.screen === 'Keluar') {
                 navigation.reset({
                   index: 0,
                   routes: [{name: configs.screens.login.main}],
                 });
+              } else {
+                navigation.navigate(item.screen);
               }
             }}>
             <View style={styles.containerImgMenu} />
@@ -102,7 +108,7 @@ const StackProfile = ({navigation}) => {
                 fontFamily: configs.fonts.OpenSans.SemiBold,
                 fontSize: configs.sizes.Text.M,
               }}>
-              {item}
+              {item.name}
             </Text>
           </TouchableOpacity>
         )}
@@ -117,14 +123,6 @@ const StackProfile = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
-  topBounce: {
-    flex: 1,
-    backgroundColor: configs.colors.primary.Sapphire.base,
-  },
-  bottomBounce: {
-    flex: 1,
-    backgroundColor: configs.colors.neutral.White.base,
-  },
   containerTop: {
     backgroundColor: configs.colors.primary.Sapphire.base,
     height: screenHeight * 0.32,
@@ -174,6 +172,14 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     zIndex: -1,
+  },
+  topBounce: {
+    flex: 1,
+    backgroundColor: configs.colors.primary.Sapphire.base,
+  },
+  bottomBounce: {
+    flex: 1,
+    backgroundColor: configs.colors.neutral.White.base,
   },
 });
 
