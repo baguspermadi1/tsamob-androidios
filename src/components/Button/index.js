@@ -41,8 +41,8 @@ const Button = ({
       txtColor = configs.colors.primary.Sapphire.base;
     }
   } else {
-    btnColor = '#DDDDDD';
-    brdrColor = '#DDDDDD';
+    btnColor = configs.colors.neutral.states.disabled;
+    brdrColor = configs.colors.neutral.states.disabled;
     txtColor = configs.colors.neutral.White.base;
   }
 

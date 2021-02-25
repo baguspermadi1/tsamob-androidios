@@ -74,34 +74,34 @@ const CustomTabBar = (props) => {
 
   if (activeRoute === configs.screens.stack.home) {
     menuColor1 = configs.colors.primary.Sapphire.base;
-    backgroundColor1 = '#E5E8F1';
+    backgroundColor1 = configs.colors.primary.Sapphire.lightest;
   } else {
-    menuColor1 = '#BDBDBD';
-    backgroundColor1 = '#FFFFFF';
+    menuColor1 = configs.colors.neutral.states.inactive;
+    backgroundColor1 = configs.colors.neutral.White.base;
   }
 
   if (activeRoute === configs.screens.stack.request) {
     menuColor2 = configs.colors.primary.Sapphire.base;
-    backgroundColor2 = '#E5E8F1';
+    backgroundColor2 = configs.colors.primary.Sapphire.lightest;
   } else {
-    menuColor2 = '#BDBDBD';
-    backgroundColor2 = '#FFFFFF';
+    menuColor2 = configs.colors.neutral.states.inactive;
+    backgroundColor2 = configs.colors.neutral.White.base;
   }
 
   if (activeRoute === configs.screens.stack.notifikasi) {
     menuColor3 = configs.colors.primary.Sapphire.base;
-    backgroundColor3 = '#E5E8F1';
+    backgroundColor3 = configs.colors.primary.Sapphire.lightest;
   } else {
-    menuColor3 = '#BDBDBD';
-    backgroundColor3 = '#FFFFFF';
+    menuColor3 = configs.colors.neutral.states.inactive;
+    backgroundColor3 = configs.colors.neutral.White.base;
   }
 
   if (activeRoute === configs.screens.stack.profile) {
     menuColor4 = configs.colors.primary.Sapphire.base;
-    backgroundColor4 = '#E5E8F1';
+    backgroundColor4 = configs.colors.primary.Sapphire.lightest;
   } else {
-    menuColor4 = '#BDBDBD';
-    backgroundColor4 = '#FFFFFF';
+    menuColor4 = configs.colors.neutral.states.inactive;
+    backgroundColor4 = configs.colors.neutral.White.base;
   }
 
   return (
@@ -205,12 +205,12 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'row',
     width: '90%',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: configs.colors.neutral.White.base,
     borderRadius: RFValue(12),
     position: 'absolute',
     borderTopWidth: 0,
     bottom: RFValue(20),
-    shadowColor: '#000',
+    shadowColor: configs.colors.neutral.Black.base,
     shadowOffset: {
       width: 0,
       height: 1,
@@ -240,6 +240,6 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   sceneStyle: {
-    backgroundColor: configs.colors.neutral.White.base
-  }
+    backgroundColor: configs.colors.neutral.White.base,
+  },
 });

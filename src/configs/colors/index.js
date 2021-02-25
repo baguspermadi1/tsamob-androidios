@@ -14,6 +14,11 @@ const colorRef = {
     Bluish: {
       base: '#F6F9FF',
     },
+    states: {
+      disabled: '#DDDDDD',
+      inactive: '#BDBDBD',
+      blur: '#86939E',
+    },
   },
 
   primary: {
@@ -39,6 +44,7 @@ const colorRef = {
       darker: '#0F2864',
       light: '#3250A5',
       lighter: '#82A0DC',
+      lightest: '#E5E8F1',
     },
   },
 

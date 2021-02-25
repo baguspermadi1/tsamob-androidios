@@ -18,7 +18,7 @@ const PlatInput = ({
     if (isFocus) {
       setcolorFocus(configs.colors.primary.Sapphire.base);
     } else {
-      setcolorFocus('#86939E');
+      setcolorFocus(configs.colors.neutral.states.blur);
     }
   }, [isFocus]);
 

@@ -119,15 +119,7 @@ const ProfileGantiPassword = ({navigation}) => {
                 <Text style={styles.forgotPasswordTxt}>Lupa Password</Text>
               </TouchableOpacity>
 
-              <Text
-                style={{
-                  color: '#5C616F',
-                  fontFamily: configs.fonts.OpenSans.SemiBold,
-                  fontSize: configs.sizes.Text.S,
-                  marginBottom: RFValue(4),
-                }}>
-                Buat Password Baru
-              </Text>
+              <Text style={styles.label}>Buat Password Baru</Text>
               <TextInput
                 placeholder={'Password Baru'}
                 placeholderActive={'Password (Min 6 Karakter)'}
@@ -300,6 +292,12 @@ const styles = StyleSheet.create({
     fontSize: configs.sizes.Text.M,
     fontFamily: configs.fonts.OpenSans.Bold,
     textDecorationLine: 'underline',
+  },
+  label: {
+    color: configs.colors.neutral.Grey.dark,
+    fontFamily: configs.fonts.OpenSans.SemiBold,
+    fontSize: configs.sizes.Text.S,
+    marginBottom: RFValue(4),
   },
 });
 

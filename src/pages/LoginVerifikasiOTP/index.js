@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
     height: RFValue(64),
     borderWidth: 1,
     borderRadius: RFValue(6),
-    backgroundColor: 'white',
+    backgroundColor: configs.colors.neutral.White.base,
     color: configs.colors.primary.Sapphire.base,
     fontSize: configs.sizes.Text.M * 2,
     justifyContent: 'center',

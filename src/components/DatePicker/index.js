@@ -229,13 +229,13 @@ const styles = StyleSheet.create({
   },
   rbSheetView: {padding: RFValue(16), flex: 1},
   placeholderActive: {
-    color: '#86939E',
+    color: configs.colors.neutral.states.blur,
     fontSize: configs.sizes.Text.S,
     fontFamily: configs.fonts.OpenSans.Bold,
     marginBottom: RFValue(8),
   },
   placeholderInactive: {
-    color: '#9AA5AE',
+    color: configs.colors.neutral.states.inactive,
     fontSize: configs.sizes.Text.L,
     fontFamily: configs.fonts.OpenSans.Regular,
   },

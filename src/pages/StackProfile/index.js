@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   containerImage: {
-    backgroundColor: 'white',
+    backgroundColor: configs.colors.neutral.White.base,
     height: screenWidth * 0.25,
     width: screenWidth * 0.25,
     borderRadius: screenWidth * 0.25,
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     marginRight: RFValue(16),
   },
   separator: {
-    backgroundColor: '#F0F0F0',
+    backgroundColor: configs.colors.neutral.Grey.light,
     height: RFValue(1),
     width: screenWidth - RFValue(24),
     alignSelf: 'flex-end',
