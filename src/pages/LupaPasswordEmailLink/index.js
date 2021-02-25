@@ -64,18 +64,18 @@ const LupaPasswordEmailLink = ({navigation, route}) => {
             }}>
             Belum menerima email?{' '}
           </Text>
-          <TouchableOpacity onPress={() => console.log('Kirim Ulang')}>
+          <TouchableOpacity
+            onPress={() => {
+              setisLoading(true);
+              setTimeout(() => {
+                setisLoading(false);
+              }, 1000);
+            }}>
             <Text
               style={{
                 color: configs.colors.primary.Sapphire.darker,
                 fontSize: configs.sizes.Text.L,
                 fontFamily: configs.fonts.OpenSans.Bold,
-              }}
-              onPress={() => {
-                setisLoading(true);
-                setTimeout(() => {
-                  setisLoading(false);
-                }, 1000);
               }}>
               Kirim Ulang
             </Text>

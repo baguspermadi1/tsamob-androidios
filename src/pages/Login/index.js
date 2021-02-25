@@ -176,7 +176,6 @@ const Login = ({navigation}) => {
                   type={'underline'}
                   text={'Lupa Password'}
                   onPress={() => {
-                    console.log('Lupa Password');
                     navigation.navigate(configs.screens.forgotPwd.email);
                     this.RBSheet.close();
                   }}

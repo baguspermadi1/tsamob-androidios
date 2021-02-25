@@ -1,4 +1,4 @@
-import {Button, TextInput} from '@components';
+import {Button, HeaderLogin, TextInput} from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
 import {
@@ -8,7 +8,6 @@ import {
   Platform,
   SafeAreaView,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -72,36 +71,7 @@ const ProfileGantiPassword = ({navigation}) => {
   return (
     <>
       <SafeAreaView style={styles.body}>
-        <StatusBar barStyle="light-content" />
-        <View
-          style={{
-            backgroundColor: configs.colors.primary.Sapphire.base,
-            height: RFValue(56),
-            alignItems: 'center',
-            flexDirection: 'row',
-          }}>
-          <TouchableOpacity
-            style={{
-              padding: RFValue(16),
-              alignItems: 'center',
-              marginRight: RFValue(4),
-            }}
-            onPress={() => navigation.goBack()}>
-            <Icon
-              name="chevron-left"
-              size={configs.sizes.Icon.XXL}
-              color="white"
-            />
-          </TouchableOpacity>
-          <Text
-            style={{
-              color: configs.colors.neutral.White.base,
-              fontFamily: configs.fonts.OpenSans.Bold,
-              fontSize: configs.sizes.Text.M,
-            }}>
-            Ubah Password
-          </Text>
-        </View>
+        <HeaderLogin title={'Ubah Password'} navigation={navigation} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -263,7 +233,6 @@ const ProfileGantiPassword = ({navigation}) => {
               text={'Ubah Password'}
               onPress={() => {
                 Keyboard.dismiss();
-                console.log('berhasil diubah');
                 setisErrorOldPassword(true);
                 seterrorInfoPassword('Password Anda Salah');
               }}

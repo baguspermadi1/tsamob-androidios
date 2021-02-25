@@ -25,9 +25,6 @@ const CustomTabBar = (props) => {
     };
   });
 
-  console.log('focus', props.navigation.isFocused());
-  console.log('navigation', props.navigation);
-
   const backAction = () => {
     if (!props.navigation.isFocused()) {
       backPressed = 0;
