@@ -18,13 +18,27 @@ import {RFValue} from 'react-native-responsive-fontsize';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
-const RegistrasiBuatPassword = ({navigation}) => {
+const RegistrasiBuatPassword = ({navigation, route}) => {
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [hidePassword, sethidePassword] = useState(true);
   const [regexCheck1, setregexCheck1] = useState(false);
   const [regexCheck2, setregexCheck2] = useState(false);
   const [regexCheck3, setregexCheck3] = useState(false);
   const [password, setpassword] = useState('');
+
+  const {
+    namaPerusahaan,
+    kodeDaerah,
+    nopol,
+    seriDaerah,
+    title,
+    namaLengkap,
+    tanggalLahir,
+    role,
+    nomorHandphone,
+    email,
+    showCompanyDataUnit,
+  } = route.params;
 
   useEffect(() => {
     if (new RegExp(/(?=.*\d)/).test(password)) {
@@ -148,7 +162,20 @@ const RegistrasiBuatPassword = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate(configs.screens.regist.daftarBerhasil);
+              navigation.navigate(configs.screens.regist.daftarBerhasil, {
+                namaPerusahaan: namaPerusahaan,
+                kodeDaerah: kodeDaerah,
+                nopol: nopol,
+                seriDaerah: seriDaerah,
+                title: title,
+                namaLengkap: namaLengkap,
+                tanggalLahir: tanggalLahir,
+                role: role,
+                nomorHandphone: nomorHandphone,
+                email: email,
+                showCompanyDataUnit: showCompanyDataUnit,
+                password: password,
+              });
             }}
             disabled={isBtnDisabled}
           />

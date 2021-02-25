@@ -96,44 +96,48 @@ const RegistrasiDataDiri = ({navigation, route}) => {
         enabled>
         <BackNonLogin navigation={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <HeaderNonLogin
-            navigation={navigation}
-            title={'Data Perusahaan dan Unit'}
-            description={
-              'Lengkapi form data perusahaan dan unit untuk mendaftarkan akun Anda'
-            }
-          />
-          <TextInput
-            placeholder={'Nama Perusahaan'}
-            style={{marginBottom: RFValue(16)}}
-            valueText={namaPerusahaan}
-            onChangeText={(text) => {
-              setnamaPerusahaan(text);
-            }}
-          />
-          <View style={styles.containerBody}>
-            <PlatInput
-              label={'Kode Daerah'}
-              placeholder={'B'}
-              valueText={kodeDaerah}
-              keyboardType="default"
-              onChangeText={(text) => setkodeDaerah(text.toUpperCase())}
-            />
-            <PlatInput
-              label={'Nopol'}
-              placeholder={'1234'}
-              valueText={nopol}
-              keyboardType="number-pad"
-              onChangeText={(text) => setnopol(text)}
-            />
-            <PlatInput
-              label={'Seri Daerah'}
-              placeholder={'ZZ'}
-              valueText={seriDaerah}
-              keyboardType="default"
-              onChangeText={(text) => setseriDaerah(text.toUpperCase())}
-            />
-          </View>
+          {showCompanyDataUnit && (
+            <View>
+              <HeaderNonLogin
+                navigation={navigation}
+                title={'Data Perusahaan dan Unit'}
+                description={
+                  'Lengkapi form data perusahaan dan unit untuk mendaftarkan akun Anda'
+                }
+              />
+              <TextInput
+                placeholder={'Nama Perusahaan'}
+                style={{marginBottom: RFValue(16)}}
+                valueText={namaPerusahaan}
+                onChangeText={(text) => {
+                  setnamaPerusahaan(text);
+                }}
+              />
+              <View style={styles.containerBody}>
+                <PlatInput
+                  label={'Kode Daerah'}
+                  placeholder={'B'}
+                  valueText={kodeDaerah}
+                  keyboardType="default"
+                  onChangeText={(text) => setkodeDaerah(text.toUpperCase())}
+                />
+                <PlatInput
+                  label={'Nopol'}
+                  placeholder={'1234'}
+                  valueText={nopol}
+                  keyboardType="number-pad"
+                  onChangeText={(text) => setnopol(text)}
+                />
+                <PlatInput
+                  label={'Seri Daerah'}
+                  placeholder={'ZZ'}
+                  valueText={seriDaerah}
+                  keyboardType="default"
+                  onChangeText={(text) => setseriDaerah(text.toUpperCase())}
+                />
+              </View>
+            </View>
+          )}
           <HeaderNonLogin
             navigation={navigation}
             title={'Data Diri'}
@@ -199,7 +203,19 @@ const RegistrasiDataDiri = ({navigation, route}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate(configs.screens.regist.buatPassword);
+              navigation.navigate(configs.screens.regist.buatPassword, {
+                namaPerusahaan: namaPerusahaan,
+                kodeDaerah: kodeDaerah,
+                nopol: nopol,
+                seriDaerah: seriDaerah,
+                title: title,
+                namaLengkap: namaLengkap,
+                tanggalLahir: tanggalLahir,
+                role: role,
+                nomorHandphone: nomorHandphone,
+                email: email,
+                showCompanyDataUnit: showCompanyDataUnit,
+              });
             }}
             disabled={isBtnDisabled}
           />
