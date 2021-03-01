@@ -13,7 +13,10 @@ import {RFValue} from 'react-native-responsive-fontsize';
 const HeaderLogin = ({navigation, title, backFunction}) => {
   return (
     <>
-      <StatusBar barStyle="light-content" />
+      <StatusBar
+        backgroundColor={configs.colors.primary.Sapphire.base}
+        barStyle="light-content"
+      />
       <View style={styles.containerHeader}>
         <TouchableOpacity
           style={styles.containerIcon}

@@ -9,6 +9,7 @@ import Loading from './Loading';
 import NumberInput from './NumberInput';
 import PlatInput from './PlatInput';
 import TextInput from './TextInput';
+import SearchBar from './SearchBar';
 
 export {
   Button,
@@ -16,6 +17,7 @@ export {
   PlatInput,
   HeaderNonLogin,
   TextInput,
+  SearchBar,
   InputWithSelector,
   Dropdown,
   DatePicker,

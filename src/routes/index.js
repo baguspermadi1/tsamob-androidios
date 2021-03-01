@@ -16,6 +16,9 @@ import {
   StackNotifikasi,
   StackProfile,
   StackRequest,
+  DaftarPemakaiKendaraanStack,
+  DaftarPemakaiKendaraanDaftarKendaraan,
+  DaftarPemakaiKendaraanDaftarPemakai,
 } from '@pages';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -46,6 +49,18 @@ const StackScreen = [
   {name: configs.screens.stack.notifikasi, component: StackNotifikasi},
   {name: configs.screens.stack.profile, component: StackProfile},
   {name: configs.screens.profile.gantiPass, component: ProfileGantiPassword},
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.main,
+    component: DaftarPemakaiKendaraanStack,
+  },
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.daftarKendaraan,
+    component: DaftarPemakaiKendaraanDaftarKendaraan,
+  },
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.daftarPemakai,
+    component: DaftarPemakaiKendaraanDaftarPemakai,
+  },
 ];
 
 function Router() {

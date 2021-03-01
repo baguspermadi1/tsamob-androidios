@@ -23,7 +23,11 @@ const screens = {
     profile: 'Profile',
   },
   profile: {
-    daftarPemakaiKendaraan: 'Daftar Pemakai Kendaraan',
+    daftarPemakaiKendaraan: {
+      main: 'Daftar Pemakai Kendaraan',
+      daftarKendaraan: 'Daftar Kendaraan',
+      daftarPemakai: 'Daftar Pemakai',
+    },
     viewUnit: 'View Unit',
     requestUMD: 'Request Update Unit',
     gantiPass: 'Ganti Password',

@@ -19,7 +19,7 @@ const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 const menu = [
   {
     name: 'Daftar Pemakai Kendaraan',
-    screen: configs.screens.profile.daftarPemakaiKendaraan,
+    screen: configs.screens.profile.daftarPemakaiKendaraan.main,
   },
   {name: 'View Unit', screen: configs.screens.profile.viewUnit},
   {name: 'Request Update Unit', screen: configs.screens.profile.requestUMD},

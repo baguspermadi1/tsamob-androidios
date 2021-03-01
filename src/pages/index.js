@@ -13,6 +13,9 @@ import StackHome from '../pages/StackHome';
 import StackNotifikasi from '../pages/StackNotifikasi';
 import StackProfile from '../pages/StackProfile';
 import StackRequest from '../pages/StackRequest';
+import DaftarPemakaiKendaraanDaftarKendaraan from './DaftarPemakaiKendaraanDaftarKendaraan';
+import DaftarPemakaiKendaraanDaftarPemakai from './DaftarPemakaiKendaraanDaftarPemakai';
+import DaftarPemakaiKendaraanStack from './DaftarPemakaiKendaraanStack';
 import StackMenu from './StackMenu';
 
 export {
@@ -27,6 +30,9 @@ export {
   LupaPasswordEmail,
   LupaPasswordEmailLink,
   StackMenu,
+  DaftarPemakaiKendaraanStack,
+  DaftarPemakaiKendaraanDaftarKendaraan,
+  DaftarPemakaiKendaraanDaftarPemakai,
   StackHome,
   StackRequest,
   StackNotifikasi,

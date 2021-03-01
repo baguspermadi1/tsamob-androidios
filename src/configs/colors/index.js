@@ -10,6 +10,7 @@ const colorRef = {
       base: '#969696',
       dark: '#414042',
       light: '#F0F0F0',
+      lighter: '#F9F9F9',
     },
     Bluish: {
       base: '#F6F9FF',
