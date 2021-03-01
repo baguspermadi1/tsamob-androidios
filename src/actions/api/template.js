@@ -1,7 +1,7 @@
-import redux from '../../constants/redux';
+import redux from '../constants/redux';
 
 const template = {
-  fetchAPI: ({method, url, fetchRedux, receiveRedux, body}) => {
+  fetchAPI: ({method, url, fetchRedux, receiveRedux, body, headers}) => {
     return async (dispatch) => {
       dispatch({type: fetchRedux});
       try {
@@ -11,6 +11,7 @@ const template = {
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json',
+            ...headers,
           },
           body: JSON.stringify(body),
         });

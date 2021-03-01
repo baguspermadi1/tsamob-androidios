@@ -1,4 +1,7 @@
 const strings = {
+  localStorage: {
+    bearerAccessToken: 'BEARER_ACCESS_TOKEN',
+  },
   id: {
     hello: 'Halo',
     thankyou: 'Terima Kasih',

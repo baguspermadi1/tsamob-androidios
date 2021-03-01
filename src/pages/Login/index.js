@@ -1,3 +1,4 @@
+import api from '@actions/api';
 import {Button, HeaderNonLogin, Loading, TextInput} from '@components';
 import configs from '@configs';
 import React, {useState} from 'react';
@@ -17,30 +18,66 @@ import {
 import CountDown from 'react-native-countdown-component';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
 const Login = ({navigation}) => {
   const [hidePassword, sethidePassword] = useState(true);
-  const [isLoading, setisLoading] = useState(false);
   const [email, setemail] = useState('');
   const [password, setpassword] = useState('');
   const [isErrorEmail, setisErrorEmail] = useState(false);
   const [isErrorPassword, setisErrorPassword] = useState(false);
+  const [errorInfoEmail, seterrorInfoEmail] = useState(false);
+  const [errorInfoPassword, seterrorInfoPassword] = useState(false);
   const [rbSheetTitleActive, setrbSheetTitleActive] = useState('');
   const [rbSheetDescriptionActive, setrbSheetDescriptionActive] = useState('');
+  const [errorCode, seterrorCode] = useState('');
+
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
+  const fetchLogin = async () => {
+    await dispatch(
+      api.Login.postLoginCustomer({email: email, password: password}),
+    )
+      .then(async (res) => {
+        if (res.http_code === 200) {
+          navigation.navigate(configs.screens.login.verifikasi, {
+            login_token: res.data.login_token,
+          });
+        } else if (res.http_code === 400) {
+          if (res.errors.Username) {
+            setisErrorEmail(true);
+            seterrorInfoEmail(res.errors?.Username);
+          }
+
+          if (res.errors.Password) {
+            setisErrorPassword(true);
+            seterrorInfoPassword(res.errors.Password);
+          }
+        } else if (res.error_code === 'wrong_password') {
+          seterrorCode(res.error_code);
+          setisErrorEmail(true);
+          setisErrorPassword(true);
+          seterrorInfoPassword('Username / Password yang anda masukkan salah!');
+        }
+      })
+      .catch(() => {
+        return console.log('error');
+      });
+  };
 
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Loading isLoading={isLoading} />
-
           <HeaderNonLogin navigation={navigation} title={'Login'} />
           <TextInput
             placeholder={'No. Handphone / Email'}
@@ -52,8 +89,11 @@ const Login = ({navigation}) => {
               setemail(text);
             }}
             isError={isErrorEmail}
-            errorInfo={'No. Handphone / Email Tidak Terdaftar'}
-            focusAfterError={() => setisErrorEmail(false)}
+            errorInfo={errorInfoEmail}
+            focusAfterError={() => {
+              setisErrorEmail(false);
+              seterrorInfoEmail(false);
+            }}
           />
           <TextInput
             placeholder={'Password'}
@@ -68,8 +108,15 @@ const Login = ({navigation}) => {
             rightIconType={'material-community'}
             onRightIconPress={() => sethidePassword(!hidePassword)}
             isError={isErrorPassword}
-            errorInfo={'Username atau Password yang anda masukkan salah!'}
-            focusAfterError={() => setisErrorPassword(false)}
+            errorInfo={errorInfoPassword}
+            focusAfterError={() => {
+              setisErrorPassword(false);
+              seterrorInfoPassword(false);
+              if (errorCode === 'wrong_password') {
+                setisErrorEmail(false);
+                seterrorInfoEmail(false);
+              }
+            }}
           />
 
           <TouchableOpacity
@@ -85,28 +132,7 @@ const Login = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              setisLoading(true);
-              setTimeout(() => {
-                setisLoading(false);
-                setrbSheetTitleActive('Kontrak Sudah Tidak Berlaku');
-                setrbSheetDescriptionActive(
-                  'Silahkan hubungi Customer Servis wilayah anda untuk informasi lebih lanjut',
-                );
-                setrbSheetTitleActive('Aktifasi Akun Anda');
-                setrbSheetDescriptionActive(
-                  'Silahkan aktifasi akun anda terlebih dahulu dengan menggunakan tautan halaman yang dikirimkan melalui email',
-                );
-                setrbSheetTitleActive('Peringatan');
-                setrbSheetDescriptionActive(
-                  'Anda sudah 3x salah memasukan Password / Kata Sandi, akun anda akan dibekukan ketika anda sudah 5x salah berturut-turut',
-                );
-                setrbSheetTitleActive('Akun Dibekukan Sementara');
-                setrbSheetDescriptionActive(
-                  'Anda telah salah memasukan Password / Kata Sandi 5x, untuk kemanan akun dibekukan sementara selama ',
-                );
-                setisErrorPassword(true);
-                this.RBSheet.open();
-              }, 1000);
+              fetchLogin();
             }}
           />
           <Button

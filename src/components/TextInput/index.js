@@ -102,6 +102,7 @@ const TextInput = ({
               focusAfterError();
             }
           }}
+          autoCapitalize={'none'}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
             onChangeText(text);
@@ -119,7 +120,7 @@ const TextInput = ({
           />
         ) : null}
       </View>
-      {isError && <Text style={styles.errorInfo}>{errorInfo}</Text>}
+      {errorInfo && <Text style={styles.errorInfo}>{errorInfo}</Text>}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import Login from './Registrasi';
+import Login from './Login';
 
 const api = {
   Login,
