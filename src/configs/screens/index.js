@@ -29,7 +29,11 @@ const screens = {
       daftarPemakai: 'Daftar Pemakai',
     },
     viewUnit: 'View Unit',
-    requestUMD: 'Request Update Unit',
+    requestUMD: {
+      main: 'Request Update Unit',
+      picCustomer: 'Request Update Unit PIC Customer',
+      endUser: 'Request Update Unit End User',
+    },
     gantiPass: 'Ganti Password',
     hubungiKami: 'Hubungi Kami',
     logout: 'Keluar',

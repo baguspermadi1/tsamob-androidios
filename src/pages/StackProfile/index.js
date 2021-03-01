@@ -22,7 +22,14 @@ const menu = [
     screen: configs.screens.profile.daftarPemakaiKendaraan.main,
   },
   {name: 'View Unit', screen: configs.screens.profile.viewUnit},
-  {name: 'Request Update Unit', screen: configs.screens.profile.requestUMD},
+  {
+    name: 'Request Update Unit User',
+    screen: configs.screens.profile.requestUMD.endUser,
+  },
+  {
+    name: 'Request Update Unit PIC',
+    screen: configs.screens.profile.requestUMD.picCustomer,
+  },
   {name: 'Ganti Password', screen: configs.screens.profile.gantiPass},
   {name: 'Hubungi Kami', screen: configs.screens.profile.hubungiKami},
   {name: 'Keluar', screen: configs.screens.profile.logout},

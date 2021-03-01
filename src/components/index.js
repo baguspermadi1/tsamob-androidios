@@ -10,6 +10,8 @@ import NumberInput from './NumberInput';
 import PlatInput from './PlatInput';
 import TextInput from './TextInput';
 import SearchBar from './SearchBar';
+import DropdownInput from './DropdownInput';
+import MultipleDropdown from './MultipleDropdown';
 
 export {
   Button,
@@ -18,6 +20,8 @@ export {
   HeaderNonLogin,
   TextInput,
   SearchBar,
+  DropdownInput,
+  MultipleDropdown,
   InputWithSelector,
   Dropdown,
   DatePicker,

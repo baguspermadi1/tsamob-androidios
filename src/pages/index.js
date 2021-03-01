@@ -16,6 +16,8 @@ import StackRequest from '../pages/StackRequest';
 import DaftarPemakaiKendaraanDaftarKendaraan from './DaftarPemakaiKendaraanDaftarKendaraan';
 import DaftarPemakaiKendaraanDaftarPemakai from './DaftarPemakaiKendaraanDaftarPemakai';
 import DaftarPemakaiKendaraanStack from './DaftarPemakaiKendaraanStack';
+import RequestUpdateUnitEndUser from './RequestUpdateUnitEndUser';
+import RequestUpdateUnitPICCustomer from './RequestUpdateUnitPICCustomer';
 import StackMenu from './StackMenu';
 
 export {
@@ -30,6 +32,8 @@ export {
   LupaPasswordEmail,
   LupaPasswordEmailLink,
   StackMenu,
+  RequestUpdateUnitEndUser,
+  RequestUpdateUnitPICCustomer,
   DaftarPemakaiKendaraanStack,
   DaftarPemakaiKendaraanDaftarKendaraan,
   DaftarPemakaiKendaraanDaftarPemakai,

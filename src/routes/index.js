@@ -1,5 +1,8 @@
 import configs from '@configs';
 import {
+  DaftarPemakaiKendaraanDaftarKendaraan,
+  DaftarPemakaiKendaraanDaftarPemakai,
+  DaftarPemakaiKendaraanStack,
   Login,
   LoginVerifikasiOTP,
   LupaPassword,
@@ -11,14 +14,13 @@ import {
   RegistrasiBuatPassword,
   RegistrasiDataDiri,
   RegistrasiPendaftaranBerhasil,
+  RequestUpdateUnitEndUser,
+  RequestUpdateUnitPICCustomer,
   StackHome,
   StackMenu,
   StackNotifikasi,
   StackProfile,
   StackRequest,
-  DaftarPemakaiKendaraanStack,
-  DaftarPemakaiKendaraanDaftarKendaraan,
-  DaftarPemakaiKendaraanDaftarPemakai,
 } from '@pages';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -60,6 +62,14 @@ const StackScreen = [
   {
     name: configs.screens.profile.daftarPemakaiKendaraan.daftarPemakai,
     component: DaftarPemakaiKendaraanDaftarPemakai,
+  },
+  {
+    name: configs.screens.profile.requestUMD.endUser,
+    component: RequestUpdateUnitEndUser,
+  },
+  {
+    name: configs.screens.profile.requestUMD.picCustomer,
+    component: RequestUpdateUnitPICCustomer,
   },
 ];
 
