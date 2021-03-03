@@ -1,4 +1,5 @@
 const screens = {
+  splashScreen: 'Splash Screen',
   regist: {
     buatAkun: 'Registrasi Buat Akun',
     dataDiri: 'Registrasi Data Diri',

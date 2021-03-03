@@ -19,8 +19,10 @@ import DaftarPemakaiKendaraanStack from './DaftarPemakaiKendaraanStack';
 import RequestUpdateUnitEndUser from './RequestUpdateUnitEndUser';
 import RequestUpdateUnitPICCustomer from './RequestUpdateUnitPICCustomer';
 import StackMenu from './StackMenu';
+import SplashScreen from './SplashScreen';
 
 export {
+  SplashScreen,
   RegistrasiBuatAkun,
   RegistrasiDataDiri,
   RegistrasiBuatPassword,

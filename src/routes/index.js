@@ -16,6 +16,7 @@ import {
   RegistrasiPendaftaranBerhasil,
   RequestUpdateUnitEndUser,
   RequestUpdateUnitPICCustomer,
+  SplashScreen,
   StackHome,
   StackMenu,
   StackNotifikasi,
@@ -29,6 +30,16 @@ import React from 'react';
 const Stack = createStackNavigator();
 
 const StackScreen = [
+  {
+    name: configs.screens.splashScreen,
+    component: SplashScreen,
+  },
+  {name: configs.screens.login.main, component: Login},
+  {name: configs.screens.login.verifikasi, component: LoginVerifikasiOTP},
+  {name: configs.screens.forgotPwd.email, component: LupaPasswordEmail},
+  {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
+  {name: configs.screens.forgotPwd.main, component: LupaPassword},
+  {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
   {name: configs.screens.regist.buatAkun, component: RegistrasiBuatAkun},
   {name: configs.screens.regist.dataDiri, component: RegistrasiDataDiri},
   {
@@ -39,12 +50,6 @@ const StackScreen = [
     name: configs.screens.regist.daftarBerhasil,
     component: RegistrasiPendaftaranBerhasil,
   },
-  {name: configs.screens.login.main, component: Login},
-  {name: configs.screens.login.verifikasi, component: LoginVerifikasiOTP},
-  {name: configs.screens.forgotPwd.email, component: LupaPasswordEmail},
-  {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
-  {name: configs.screens.forgotPwd.main, component: LupaPassword},
-  {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
   {name: configs.screens.stack.main, component: StackMenu},
   {name: configs.screens.stack.home, component: StackHome},
   {name: configs.screens.stack.request, component: StackRequest},
@@ -77,7 +82,7 @@ function Router() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={configs.screens.login.main}
+        initialRouteName={configs.screens.splashScreen}
         screenOptions={{headerShown: false}}>
         {StackScreen.map((item, index) => (
           <Stack.Screen
