@@ -1,6 +1,9 @@
+import api from '@actions/api';
+import localstorage from '@actions/constants/localstorage';
 import {Button, Loading} from '@components';
 import configs from '@configs';
-import React, {useState} from 'react';
+import utilities from '@utilities';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   FlatList,
@@ -14,6 +17,7 @@ import {
 import {Image} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 const menu = [
@@ -36,21 +40,59 @@ const menu = [
 ];
 
 const StackProfile = ({navigation}) => {
-  const [isLoading, setisLoading] = useState(false);
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+  const [accessToken, setaccessToken] = useState('');
+
+  useEffect(() => {
+    checkToken();
+  });
+
+  const checkToken = async () => {
+    let token = await utilities.asyncstorage.readEncryptStorage({
+      key: localstorage.AUTHENTICATION.ACCESS_TOKEN,
+    });
+    setaccessToken(token);
+  };
+
+  const navigateMenu = async ({screen}) => {
+    if (screen === 'Keluar') {
+      logout();
+    } else {
+      navigation.navigate(screen);
+    }
+  };
+
+  const logout = async () => {
+    await dispatch(
+      api.Authentication.postLogout({
+        accessToken: accessToken,
+      }),
+    )
+      .then(async (res) => {
+        let {success} = res;
+
+        if (success) {
+          await utilities.asyncstorage.clearStorage();
+          navigation.reset({
+            index: 0,
+            routes: [{name: configs.screens.login.main}],
+          });
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
 
   return (
     <SafeAreaView>
       <StatusBar barStyle="light-content" />
-      <Loading isLoading={isLoading} />
+      <Loading isLoading={loadingRedux} />
       <FlatList
         refreshControl={
           <RefreshControl
-            onRefresh={() => {
-              setisLoading(true);
-              setTimeout(() => {
-                setisLoading(false);
-              }, 2000);
-            }}
+            onRefresh={() => console.log('Refresh')}
             refreshing={false}
           />
         }
@@ -98,16 +140,7 @@ const StackProfile = ({navigation}) => {
         renderItem={({item, index}) => (
           <TouchableOpacity
             style={styles.containerMenu}
-            onPress={() => {
-              if (item.screen === 'Keluar') {
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: configs.screens.login.main}],
-                });
-              } else {
-                navigation.navigate(item.screen);
-              }
-            }}>
+            onPress={() => navigateMenu({screen: item.screen})}>
             <View style={styles.containerImgMenu} />
             <Text
               style={{

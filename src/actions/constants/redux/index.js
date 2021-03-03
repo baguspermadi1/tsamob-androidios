@@ -9,6 +9,10 @@ const redux = {
       FETCH: 'FETCH_AUTHENTICATION_OTP',
       RECEIVE: 'RECEIVE_AUTHENTICATION_OTP',
     },
+    LOGOUT: {
+      FETCH: 'FETCH_LOGOUT',
+      RECEIVE: 'RECEIVE_LOGOUT',
+    },
   },
 };
 

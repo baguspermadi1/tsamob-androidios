@@ -2,6 +2,9 @@ import redux from '../constants/redux';
 
 const template = {
   fetchAPI: ({method, url, fetchRedux, receiveRedux, body, headers}) => {
+    console.group('FETCH PARAMETER');
+    console.log({method, url, fetchRedux, receiveRedux, body, headers});
+    console.groupEnd();
     return async (dispatch) => {
       dispatch({type: fetchRedux});
       try {

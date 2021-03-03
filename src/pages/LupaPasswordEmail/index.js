@@ -62,7 +62,7 @@ const LupaPasswordEmail = ({navigation}) => {
               setemail(text);
             }}
             isError={isErrorEmail}
-            errorInfo={'Email Tidak Terdaftar'}
+            errorInfo={false}
             focusAfterError={() => setisErrorEmail(false)}
           />
         </ScrollView>

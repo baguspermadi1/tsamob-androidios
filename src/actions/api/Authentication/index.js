@@ -2,7 +2,7 @@ import redux from '../../constants/redux';
 import rest from '../../constants/rest';
 import template from '../template';
 
-const Login = {
+const Authentication = {
   postLoginCustomer: ({email, password}) => {
     return template.fetchAPI({
       method: 'POST',
@@ -13,9 +13,6 @@ const Login = {
         Username: email,
         Password: password,
       },
-      headers: {
-        Authorization: 'Bearer Token'
-      }
     });
   },
   postVerifyOTP: ({loginToken, otpCode}) => {
@@ -30,6 +27,15 @@ const Login = {
       },
     });
   },
+  postLogout: ({accessToken}) => {
+    return template.fetchAPI({
+      method: 'POST',
+      fetchRedux: redux.AUTHENTICATION.LOGOUT.FETCH,
+      receiveRedux: redux.AUTHENTICATION.LOGOUT.RECEIVE,
+      url: rest.authentication.logout,
+      headers: {Authorization: `Bearer ${accessToken}`},
+    });
+  },
 };
 
-export default Login;
+export default Authentication;

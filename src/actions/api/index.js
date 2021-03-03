@@ -1,7 +1,7 @@
-import Login from './Login';
+import Authentication from './Authentication';
 
 const api = {
-  Login,
+  Authentication,
 };
 
 export default api;
