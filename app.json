@@ -2,6 +2,7 @@
   "name": "TSA_MOB",
   "displayName": "TRAC Service",
   "environment": "development",
+  "appVersion": "1.0.0",
   "url": {
     "prod": "https://prod.sera-tsa.com",
     "qa": "https://qa.sera-tsa.com",
