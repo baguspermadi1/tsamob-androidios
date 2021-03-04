@@ -2403,6 +2403,11 @@
     "shebang-command" "^2.0.0"
     "which" "^2.0.1"
 
+"crypto-es@^1.2.7":
+  "integrity" "sha512-UUqiVJ2gUuZFmbFsKmud3uuLcNP2+Opt+5ysmljycFCyhA0+T16XJmo1ev/t5kMChMqWh7IEvURNCqsg+SjZGQ=="
+  "resolved" "https://registry.npmjs.org/crypto-es/-/crypto-es-1.2.7.tgz"
+  "version" "1.2.7"
+
 "cssom@^0.4.4":
   "integrity" "sha512-p3pvU7r1MyyqbTk+WbNJIgJjG2VmTIaB10rI93LzVPrmDJKkzKYMtxxyAvQXR/NS6otuzveI7+7BBq3SjBS2mw=="
   "resolved" "https://registry.npmjs.org/cssom/-/cssom-0.4.4.tgz"
@@ -5879,11 +5884,6 @@
   "integrity" "sha512-NAnt2iGDXohE5LI7uBnLnqvLQMtzhkiAOLXTmv+qnF9Ky7xAPcX8Up/xWIhxvLVGJvuLiNc4xQLtuqDRzb4fSA=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.1.tgz"
   "version" "17.0.1"
-
-"react-native-aes-pack@^1.0.3":
-  "integrity" "sha512-mJ71+Ky2qKEGZZK0oswoIPjlDC9zbTh6yYalu3NXTga2qBsTB8sur2FbVZbqstJXGT+4Vy8+Y+kr6IR/Lb0MCQ=="
-  "resolved" "https://registry.npmjs.org/react-native-aes-pack/-/react-native-aes-pack-1.0.3.tgz"
-  "version" "1.0.3"
 
 "react-native-countdown-component@^2.7.1":
   "integrity" "sha512-H7D/YvMjY1hCJf9xFrNh5CsIwkcel/Suno2gYR6ulWwoa2xnUgmltFWoMyEIODsUy7lIK1KCPm+Zn26QajbRaw=="

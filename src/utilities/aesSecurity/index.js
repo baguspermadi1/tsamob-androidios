@@ -1,29 +1,29 @@
-import AesCrypto from 'react-native-aes-pack';
+import CryptoES from 'crypto-es';
 import {crypto} from '../../../app.json';
 
 const aesSecurity = {
-  encryption: async (plainText) => {
+  encryption: (plainText) => {
     try {
-      let cipher = await AesCrypto.encrypt(
+      const encrypted = CryptoES.AES.encrypt(
         plainText,
         crypto.secretKey,
-        crypto.iv,
-      );
-      return cipher;
+      ).toString();
+      return encrypted;
     } catch (e) {
-      console.log(e.toString());
+      console.log('ENCRYPT ERROR', e.toString());
+      return false;
     }
   },
-  decryption: async (ciphers) => {
+  decryption: (ciphers) => {
     try {
-      let cipher = await AesCrypto.decrypt(
+      const decrypted = CryptoES.AES.decrypt(
         ciphers,
         crypto.secretKey,
-        crypto.iv,
-      );
-      return cipher;
+      ).toString(CryptoES.enc.Utf8);
+      return decrypted;
     } catch (e) {
-      console.log(e.toString());
+      console.log('DECRYPT ERROR', e.toString());
+      return false;
     }
   },
 };

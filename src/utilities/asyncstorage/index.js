@@ -5,8 +5,7 @@ const asyncstorage = {
   storeEncryptStorage: async ({value, key}) => {
     try {
       let encryptValue = await aesSecurity.encryption(value);
-      let encryptKey = await aesSecurity.encryption(key);
-      await AsyncStorage.setItem(encryptKey, encryptValue);
+      await AsyncStorage.setItem(key, encryptValue);
       return true;
     } catch (e) {
       return false;
@@ -14,8 +13,10 @@ const asyncstorage = {
   },
   readEncryptStorage: async ({key}) => {
     try {
-      let encryptKey = await aesSecurity.encryption(key);
-      let encryptValue = await AsyncStorage.getItem(encryptKey);
+      let encryptValue = await AsyncStorage.getItem(key);
+      if (!encryptValue) {
+        return false;
+      }
       let decryptValue = await aesSecurity.decryption(encryptValue);
       return decryptValue;
     } catch (e) {
@@ -24,8 +25,7 @@ const asyncstorage = {
   },
   removeEncryptStorage: async ({key}) => {
     try {
-      let encryptKey = await aesSecurity.encryption(key);
-      await AsyncStorage.removeItem(encryptKey);
+      await AsyncStorage.removeItem(key);
       return true;
     } catch (e) {
       return false;
