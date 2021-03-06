@@ -22,6 +22,7 @@ import {
   StackNotifikasi,
   StackProfile,
   StackRequest,
+  ProfileEdit,
 } from '@pages';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -55,6 +56,7 @@ const StackScreen = [
   {name: configs.screens.stack.request, component: StackRequest},
   {name: configs.screens.stack.notifikasi, component: StackNotifikasi},
   {name: configs.screens.stack.profile, component: StackProfile},
+  {name: configs.screens.profile.edit, component: ProfileEdit},
   {name: configs.screens.profile.gantiPass, component: ProfileGantiPassword},
   {
     name: configs.screens.profile.daftarPemakaiKendaraan.main,

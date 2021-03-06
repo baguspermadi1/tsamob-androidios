@@ -2,11 +2,14 @@ import localstorage from '@actions/constants/localstorage';
 import configs from '@configs';
 import utilities from '@utilities';
 import React, {useEffect} from 'react';
-import {Dimensions} from 'react-native';
-import {StyleSheet} from 'react-native';
-import {StatusBar} from 'react-native';
-import {SafeAreaView} from 'react-native';
-import {Text, View} from 'react-native';
+import {
+  Dimensions,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import {Image} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {appVersion} from '../../../app.json';

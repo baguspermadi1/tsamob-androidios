@@ -24,6 +24,7 @@ const screens = {
     profile: 'Profile',
   },
   profile: {
+    edit: 'Profile Edit',
     daftarPemakaiKendaraan: {
       main: 'Daftar Pemakai Kendaraan',
       daftarKendaraan: 'Daftar Kendaraan',

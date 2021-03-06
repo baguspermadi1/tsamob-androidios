@@ -1,7 +1,8 @@
 import {
   BackNonLogin,
   Button,
-  DatePicker,
+  DropdownForm,
+  DatePickerSimple,
   Dropdown,
   HeaderNonLogin,
   InputWithSelector,
@@ -21,6 +22,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
 
 const {width: screenWidth} = Dimensions.get('screen');
@@ -155,10 +157,13 @@ const RegistrasiDataDiri = ({navigation, route}) => {
             idDropDown={'RBSheetNamaLengkap'}
             dataSelector={['Bapak', 'Ibu']}
           />
-          <DatePicker
+          <DropdownForm
             placeholder={'Tanggal Lahir'}
             style={{marginBottom: RFValue(8)}}
             valueText={tanggalLahir}
+            onSelect={() => this[RBSheet + 'RBSheetTTL'].open()}
+          />
+          <DatePickerSimple
             onSelect={(text) => {
               settanggalLahir(text);
             }}

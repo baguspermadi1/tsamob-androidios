@@ -23,6 +23,7 @@ const TextInput = ({
   leftIconType,
   onLeftIconPress,
   focusAfterError,
+  useLineStyles,
 }) => {
   const [isFocus, setisFocus] = useState(false);
   const [colorFocus, setcolorFocus] = useState(false);
@@ -63,6 +64,8 @@ const TextInput = ({
               ? configs.colors.primary.Sapphire.base
               : isError
               ? configs.colors.secondary.Ruby.light
+              : useLineStyles
+              ? configs.colors.neutral.Grey.base
               : configs.colors.neutral.White.base,
           ...style,
         }}>

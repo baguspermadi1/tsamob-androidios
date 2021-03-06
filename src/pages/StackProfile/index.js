@@ -127,6 +127,7 @@ const StackProfile = ({navigation}) => {
                 width: RFValue(120),
               }}
               styleText={{color: configs.colors.primary.Sapphire.base}}
+              onPress={() => navigation.navigate(configs.screens.profile.edit)}
             />
           </View>
         )}

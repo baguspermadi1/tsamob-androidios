@@ -1,15 +1,8 @@
 import configs from '@configs';
 import Picker from '@gregfrench/react-native-wheel-picker';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {
-  Dimensions,
-  Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {Dimensions, Platform, StyleSheet, Text, View} from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
 import Button from '../Button';
@@ -17,15 +10,7 @@ var PickerItem = Picker.Item;
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
-const DatePicker = ({
-  valueText,
-  placeholder,
-  isError,
-  errorInfo,
-  style,
-  onSelect,
-  idDropDown,
-}) => {
+const DatePickerSimple = ({onSelect, idDropDown}) => {
   const [date, setdate] = useState(new Date().getDate());
   const [month, setmonth] = useState(new Date().getMonth() + 1);
   const [year, setyear] = useState(new Date().getFullYear());
@@ -71,34 +56,6 @@ const DatePicker = ({
   }, [date, month, year]);
   return (
     <>
-      <TouchableOpacity
-        style={{
-          ...styles.containerComponentInput,
-          borderColor: isError
-            ? configs.colors.secondary.Ruby.light
-            : configs.colors.neutral.White.base,
-          ...style,
-        }}
-        onPress={() => this[RBSheet + idDropDown].open()}>
-        <View style={styles.containerInput}>
-          {valueText ? (
-            <View>
-              <Text style={styles.placeholderActive}>{placeholder}</Text>
-              <Text
-                style={{
-                  fontSize: configs.sizes.Text.M,
-                  fontFamily: configs.fonts.OpenSans.SemiBold,
-                }}>
-                {valueText}
-              </Text>
-            </View>
-          ) : (
-            <Text style={styles.placeholderInactive}>{placeholder}</Text>
-          )}
-        </View>
-        <Icon name={'arrow-drop-down'} size={configs.sizes.Icon.XXL} />
-      </TouchableOpacity>
-      {isError && <Text style={styles.errorInfo}>{errorInfo}</Text>}
       <RBSheet
         ref={(ref) => {
           this[RBSheet + idDropDown] = ref;
@@ -193,7 +150,12 @@ const DatePicker = ({
             text={'Pilih Tanggal'}
             onPress={() => {
               this[RBSheet + idDropDown].close();
-              onSelect(`${date}/${month > 9 ? month : '0' + month}/${year}`);
+              onSelect(
+                moment(
+                  `${date}/${month > 9 ? month : '0' + month}/${year}`,
+                  'DD/MM/YYYY',
+                ).format('DD/MM/YYYY'),
+              );
             }}
           />
         </View>
@@ -202,43 +164,10 @@ const DatePicker = ({
   );
 };
 
-export default DatePicker;
+export default DatePickerSimple;
 
 const styles = StyleSheet.create({
-  containerComponentInput: {
-    height: RFValue(64),
-    width: '100%',
-    backgroundColor: configs.colors.neutral.White.base,
-    borderRadius: RFValue(6),
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: RFValue(8),
-    borderWidth: RFValue(1),
-    marginBottom: RFValue(4),
-  },
-  containerInput: {
-    width: '92%',
-    paddingHorizontal: RFValue(8),
-  },
-  inputContainer: {borderBottomWidth: 0},
-  errorInfo: {
-    color: configs.colors.secondary.Ruby.light,
-    fontSize: configs.sizes.Text.S,
-    fontFamily: configs.fonts.OpenSans.Regular,
-    alignSelf: 'flex-end',
-  },
   rbSheetView: {padding: RFValue(16), flex: 1},
-  placeholderActive: {
-    color: configs.colors.neutral.states.blur,
-    fontSize: configs.sizes.Text.S,
-    fontFamily: configs.fonts.OpenSans.Bold,
-    marginBottom: RFValue(8),
-  },
-  placeholderInactive: {
-    color: configs.colors.neutral.states.inactive,
-    fontSize: configs.sizes.Text.L,
-    fontFamily: configs.fonts.OpenSans.Regular,
-  },
   titleRBSheet: {
     fontFamily: configs.fonts.OpenSans.Bold,
     fontSize: configs.sizes.Text.L,

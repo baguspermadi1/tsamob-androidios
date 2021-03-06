@@ -19,6 +19,7 @@ import DaftarPemakaiKendaraanStack from './DaftarPemakaiKendaraanStack';
 import RequestUpdateUnitEndUser from './RequestUpdateUnitEndUser';
 import RequestUpdateUnitPICCustomer from './RequestUpdateUnitPICCustomer';
 import StackMenu from './StackMenu';
+import ProfileEdit from './ProfileEdit';
 import SplashScreen from './SplashScreen';
 
 export {
@@ -34,6 +35,7 @@ export {
   LupaPasswordEmail,
   LupaPasswordEmailLink,
   StackMenu,
+  ProfileEdit,
   RequestUpdateUnitEndUser,
   RequestUpdateUnitPICCustomer,
   DaftarPemakaiKendaraanStack,

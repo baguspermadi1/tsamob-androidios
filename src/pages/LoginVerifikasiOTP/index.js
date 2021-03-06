@@ -103,8 +103,7 @@ const LoginVerifikasiOTP = ({navigation, route}) => {
           />
           <OTPInputView
             style={{height: RFValue(72)}}
-            pinCount={6}
-            autoFocusOnLoad
+            pinCount={4}
             codeInputFieldStyle={{
               ...styles.codeInputField,
               borderColor: isErrorOTP
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
     marginBottom: RFValue(16),
   },
   codeInputField: {
-    width: RFValue(48),
+    width: RFValue(64),
     height: RFValue(64),
     borderWidth: 1,
     borderRadius: RFValue(6),
