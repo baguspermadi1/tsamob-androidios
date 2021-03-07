@@ -1,3 +1,4 @@
+import api from '@actions/api';
 import {
   BackNonLogin,
   Button,
@@ -8,11 +9,11 @@ import {
 } from '@components';
 import configs from '@configs';
 import React, {useEffect, useState} from 'react';
-import {Linking} from 'react-native';
 import {
   Dimensions,
   Keyboard,
   KeyboardAvoidingView,
+  Linking,
   Platform,
   SafeAreaView,
   ScrollView,
@@ -23,63 +24,23 @@ import {
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
-const ERRORCODE = [
-  {
-    code: 'ERROR001',
-    title: 'Nomor Kendaraan Tidak Terdaftar',
-    desc: 'Mohon periksa kembali nomor kendaraan Anda',
-  },
-  {
-    code: 'ERROR002',
-    title: 'Kontrak Sudah Tidak Berlaku',
-    desc: 'Silahkan klik tombol Hubungi Kami  untuk informasi lebih lanjut',
-  },
-  {
-    code: 'ERROR003',
-    title: 'Anda Sudah Terdaftar',
-    desc:
-      'Nomor kendaraan dan nomor ponsel Anda sudah terdaftar, silahkan melanjutkan dengan Login',
-  },
-  {
-    code: 'ERROR004',
-    title: 'Aktivasi Akun Anda',
-    desc:
-      'Akun Anda belum dilakukan aktivasi, silahkan lakukan aktivasi dengan mengklik tautan yang dikirimkan melalui email',
-  },
-  {
-    code: 'ERROR005',
-    title: 'Lengkapi Data Diri',
-    desc:
-      'Nomor ponsel dan nomor kendaraan sudah terdaftar, mohon lengkapi data pendukung lainnya',
-  },
-  {
-    code: 'ERROR006',
-    title: 'Hubungkan Nomer Ponsel',
-    desc:
-      'Nomor kendaraan Anda belum terhubung dengan nomer ponsel. Silahkan melanjutkan dengan melengkapi data diri & kendaraan',
-  },
-  {
-    code: 'ERROR007',
-    title: 'Nomor Ponsel Tidak Terdaftar',
-    desc: 'Silahkan melanjutkan dengan melengkapi data diri & kendaraan',
-  },
-];
-
 const RegistrasiBuatAkun = ({navigation}) => {
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [phoneNumber, setphoneNumber] = useState('');
   const [kodeDaerah, setkodeDaerah] = useState('');
   const [nopol, setnopol] = useState('');
   const [seriDaerah, setseriDaerah] = useState('');
-  const [rbSheetInfoActive, setrbSheetInfoActive] = useState('');
-  const [rbSheetCodeValidate, setrbSheetCodeValidate] = useState('');
+  const [errorCode, seterrorCode] = useState('');
   const [rbSheetTitleValidate, setrbSheetTitleValidate] = useState('');
   const [rbSheetDescValidate, setrbSheetDescValidate] = useState('');
   const [isPhoneError, setisPhoneError] = useState(false);
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
-  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     if (
@@ -95,6 +56,25 @@ const RegistrasiBuatAkun = ({navigation}) => {
     }
   }, [kodeDaerah, nopol, phoneNumber, seriDaerah]);
 
+  const checkRegistration = async () => {
+    await dispatch(
+      api.Registration.postCheckRegistration({
+        phoneNumber: `0${phoneNumber}`,
+        licensePlate: `${kodeDaerah}${nopol}${seriDaerah}`,
+      }),
+    )
+      .then(async (res) => {
+        let {error_code, message, title} = res;
+        seterrorCode(error_code);
+        setrbSheetTitleValidate(title);
+        setrbSheetDescValidate(message);
+        this.RBSheetValidate.open();
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
@@ -104,7 +84,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
         style={styles.body}
         enabled>
         <BackNonLogin navigation={navigation} />
-        <Loading isLoading={isLoading} />
+        <Loading isLoading={loadingRedux} />
         <ScrollView>
           <HeaderNonLogin
             navigation={navigation}
@@ -120,7 +100,9 @@ const RegistrasiBuatAkun = ({navigation}) => {
               } else {
                 setisPhoneError(false);
               }
-              setphoneNumber(text);
+              if (text.charAt(0) !== '0') {
+                setphoneNumber(text);
+              }
             }}
             isError={isPhoneError}
             errorInfo={'Nomor Tidak Valid'}
@@ -138,6 +120,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
               valueText={kodeDaerah}
               keyboardType="default"
               onChangeText={(text) => setkodeDaerah(text.toUpperCase())}
+              length={2}
             />
             <PlatInput
               label={'Nopol'}
@@ -145,6 +128,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
               valueText={nopol}
               keyboardType="number-pad"
               onChangeText={(text) => setnopol(text)}
+              length={4}
             />
             <PlatInput
               label={'Seri Daerah'}
@@ -152,6 +136,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
               valueText={seriDaerah}
               keyboardType="default"
               onChangeText={(text) => setseriDaerah(text.toUpperCase())}
+              length={3}
             />
           </View>
         </ScrollView>
@@ -161,7 +146,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             <Text
               onPress={() => {
                 this.RBSheetInfo.open();
-                setrbSheetInfoActive('Syarat Ketentuan');
+                seterrorCode('Syarat Ketentuan');
               }}
               style={styles.underlineText}>
               Syarat Ketentuan
@@ -170,7 +155,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             <Text
               onPress={() => {
                 this.RBSheetInfo.open();
-                setrbSheetInfoActive('Kebijakan Privasi');
+                seterrorCode('Kebijakan Privasi');
               }}
               style={styles.underlineText}>
               Kebijakan Privasi
@@ -180,14 +165,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              setisLoading(true);
-              setTimeout(() => {
-                setisLoading(false);
-                setrbSheetCodeValidate(ERRORCODE[5].code);
-                setrbSheetTitleValidate(ERRORCODE[5].title);
-                setrbSheetDescValidate(ERRORCODE[5].desc);
-                this.RBSheetValidate.open();
-              }, 2000);
+              checkRegistration();
             }}
             disabled={isBtnDisabled}
           />
@@ -211,7 +189,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
                   fontSize: configs.sizes.Text.L,
                   color: configs.colors.neutral.Grey.dark,
                 }}>
-                {rbSheetInfoActive}
+                {errorCode}
               </Text>
               <Text
                 style={styles.rbSheetClose}
@@ -239,9 +217,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
             this.RBSheetValidate = ref;
           }}
           height={
-            rbSheetCodeValidate === ERRORCODE[1].code
-              ? screenHeight * 0.33
-              : undefined
+            errorCode === 'contract_end' ? screenHeight * 0.33 : undefined
           }
           customStyles={{
             container: {
@@ -258,26 +234,26 @@ const RegistrasiBuatAkun = ({navigation}) => {
             <View style={styles.containerBottomSheet}>
               <Button
                 text={
-                  rbSheetCodeValidate === ERRORCODE[0].code
+                  errorCode === 'nopol_not_registered'
                     ? 'Coba Lagi'
-                    : rbSheetCodeValidate === ERRORCODE[1].code
+                    : errorCode === 'contract_end'
                     ? 'Hubungi Kami'
-                    : rbSheetCodeValidate === ERRORCODE[2].code
+                    : errorCode === 'account_registered'
                     ? 'Login'
-                    : rbSheetCodeValidate === ERRORCODE[3].code
+                    : errorCode === 'waiting_activation'
                     ? 'Mengerti'
                     : 'Lengkapi Data'
                 }
                 onPress={() => {
                   this.RBSheetValidate.close();
-                  if (rbSheetCodeValidate === ERRORCODE[1].code) {
+                  if (errorCode === 'contract_end') {
                     Linking.openURL('tel:081268006675');
-                  } else if (rbSheetCodeValidate === ERRORCODE[2].code) {
+                  } else if (errorCode === 'account_registered') {
                     navigation.reset({
                       index: 0,
                       routes: [{name: configs.screens.login.main}],
                     });
-                  } else if (rbSheetCodeValidate === ERRORCODE[4].code) {
+                  } else if (errorCode === 'personal_data_complete') {
                     navigation.navigate(configs.screens.regist.dataDiri, {
                       phoneNumber: phoneNumber,
                       kodeDaerah: kodeDaerah,
@@ -286,8 +262,8 @@ const RegistrasiBuatAkun = ({navigation}) => {
                       showCompanyDataUnit: false,
                     });
                   } else if (
-                    rbSheetCodeValidate === ERRORCODE[5].code ||
-                    rbSheetCodeValidate === ERRORCODE[6].code
+                    errorCode === 'connect_phone_number' ||
+                    errorCode === 'phone_not_registered'
                   ) {
                     navigation.navigate(configs.screens.regist.dataDiri, {
                       phoneNumber: phoneNumber,
@@ -299,7 +275,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
                   }
                 }}
               />
-              {rbSheetCodeValidate === ERRORCODE[1].code && (
+              {errorCode === 'contract_end' && (
                 <Button
                   type={'underline'}
                   text={'Mengerti'}

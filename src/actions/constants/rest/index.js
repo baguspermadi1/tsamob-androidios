@@ -19,6 +19,11 @@ const rest = {
     forgot: `${baseUrl}/api/v1/account/forgot-password`,
     reset: `${baseUrl}api/v1/account/reset-password`,
   },
+  registration: {
+    check: `${baseUrl}/api/v1/account/check-user`,
+    verifyRegistration: `${baseUrl}/api/v1/account/register`,
+    sendActivationMail: `${baseUrl}api/v1/account/send-activation`,
+  },
 };
 
 export default rest;

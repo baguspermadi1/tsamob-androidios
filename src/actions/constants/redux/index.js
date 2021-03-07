@@ -12,6 +12,10 @@ const redux = {
     FORGOT: 'FORGOT_PASSWORD',
     CHANGE: 'CHANGE_PASSWORD',
   },
+  REGISTRATION: {
+    CHECK: 'CHECK_REGISTRATION',
+    VERIFY_REGISTRATION: 'VERIFY_REGISTRATION',
+  },
 };
 
 export default redux;

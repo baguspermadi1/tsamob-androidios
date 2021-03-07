@@ -10,6 +10,7 @@ const PlatInput = ({
   placeholder,
   onChangeText,
   keyboardType,
+  length = 4,
 }) => {
   const [isFocus, setisFocus] = useState(false);
   const [colorFocus, setcolorFocus] = useState(null);
@@ -46,7 +47,9 @@ const PlatInput = ({
           onFocus={(e) => setisFocus(true)}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
-            onChangeText(text);
+            if (text.length <= length) {
+              onChangeText(text);
+            }
           }}
         />
       </View>
