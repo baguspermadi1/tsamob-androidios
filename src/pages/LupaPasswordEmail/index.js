@@ -1,3 +1,4 @@
+import api from '@actions/api';
 import {
   BackNonLogin,
   Button,
@@ -19,14 +20,19 @@ import {
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
 const LupaPasswordEmail = ({navigation}) => {
-  const [isLoading, setisLoading] = useState(false);
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [isErrorEmail, setisErrorEmail] = useState(false);
+  const [infoErrorEmail, setinfoErrorEmail] = useState(false);
   const [email, setemail] = useState('');
+  const [errorCode, seterrorCode] = useState('');
 
   useEffect(() => {
     if (email) {
@@ -36,9 +42,42 @@ const LupaPasswordEmail = ({navigation}) => {
     }
   }, [email]);
 
+  const sendEmail = async () => {
+    await dispatch(
+      api.Password.postForgotPassword({
+        email: email,
+      }),
+    )
+      .then(async (res) => {
+        let {error_code, success, errors} = res;
+
+        if (success) {
+          navigation.navigate(configs.screens.forgotPwd.emailLink, {
+            email: email,
+          });
+        } else {
+          seterrorCode(error_code);
+          if (error_code === 'inline_validations') {
+            errors.map((item) => {
+              let errorMessages = item.messages.join('\n');
+
+              if (item.field === 'Email') {
+                setisErrorEmail(true);
+                setinfoErrorEmail(errorMessages);
+              }
+            });
+          }
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -51,7 +90,6 @@ const LupaPasswordEmail = ({navigation}) => {
           description={'Masukan email untuk mengatur ulang kata sandi anda'}
         />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Loading isLoading={isLoading} />
           <TextInput
             placeholder={'Email Anda'}
             placeholderActive={'Contoh : johndoe@mail.com'}
@@ -62,8 +100,11 @@ const LupaPasswordEmail = ({navigation}) => {
               setemail(text);
             }}
             isError={isErrorEmail}
-            errorInfo={false}
-            focusAfterError={() => setisErrorEmail(false)}
+            errorInfo={infoErrorEmail}
+            focusAfterError={() => {
+              setinfoErrorEmail(false);
+              setisErrorEmail(false);
+            }}
           />
         </ScrollView>
         <View style={styles.containerBottom}>
@@ -72,14 +113,7 @@ const LupaPasswordEmail = ({navigation}) => {
             disabled={isBtnDisabled}
             onPress={() => {
               Keyboard.dismiss();
-              setisLoading(true);
-              setisErrorEmail(true);
-              setTimeout(() => {
-                setisLoading(false);
-                navigation.navigate(configs.screens.forgotPwd.emailLink, {
-                  email: email,
-                });
-              }, 1000);
+              sendEmail();
             }}
           />
         </View>

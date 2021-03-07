@@ -8,6 +8,10 @@ const redux = {
     CHECK_TOKEN: 'CHECK_TOKEN',
     REFRESH_TOKEN: 'REFRESH_TOKEN',
   },
+  PASSWORD: {
+    FORGOT: 'FORGOT_PASSWORD',
+    CHANGE: 'CHANGE_PASSWORD',
+  },
 };
 
 export default redux;
