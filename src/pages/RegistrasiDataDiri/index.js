@@ -122,6 +122,7 @@ const RegistrasiDataDiri = ({navigation, route}) => {
                   valueText={kodeDaerah}
                   keyboardType="default"
                   onChangeText={(text) => setkodeDaerah(text.toUpperCase())}
+                  length={2}
                 />
                 <PlatInput
                   label={'Nopol'}
@@ -129,6 +130,7 @@ const RegistrasiDataDiri = ({navigation, route}) => {
                   valueText={nopol}
                   keyboardType="number-pad"
                   onChangeText={(text) => setnopol(text)}
+                  length={4}
                 />
                 <PlatInput
                   label={'Seri Daerah'}
@@ -136,6 +138,7 @@ const RegistrasiDataDiri = ({navigation, route}) => {
                   valueText={seriDaerah}
                   keyboardType="default"
                   onChangeText={(text) => setseriDaerah(text.toUpperCase())}
+                  length={3}
                 />
               </View>
             </View>

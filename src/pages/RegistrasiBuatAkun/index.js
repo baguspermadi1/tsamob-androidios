@@ -78,13 +78,13 @@ const RegistrasiBuatAkun = ({navigation}) => {
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
         style={styles.body}
         enabled>
         <BackNonLogin navigation={navigation} />
-        <Loading isLoading={loadingRedux} />
         <ScrollView>
           <HeaderNonLogin
             navigation={navigation}

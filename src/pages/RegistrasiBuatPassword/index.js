@@ -1,5 +1,13 @@
-import {BackNonLogin, Button, HeaderNonLogin, TextInput} from '@components';
+import api from '@actions/api';
+import {
+  BackNonLogin,
+  Button,
+  HeaderNonLogin,
+  Loading,
+  TextInput,
+} from '@components';
 import configs from '@configs';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -15,10 +23,14 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiBuatPassword = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [hidePassword, sethidePassword] = useState(true);
   const [regexCheck1, setregexCheck1] = useState(false);
@@ -63,9 +75,48 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
       setisBtnDisabled(true);
     }
   }, [password, regexCheck1, regexCheck2, regexCheck3]);
+
+  const checkRegistration = async () => {
+    await dispatch(
+      api.Registration.postVerifyRegistration({
+        title: title,
+        dateOfBirth: moment(tanggalLahir, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+        userCode: '',
+        name: namaLengkap,
+        username: email,
+        email: email,
+        phoneNumber: nomorHandphone,
+        roleID: role === 'PIC' ? 1 : 2,
+        password: password,
+      }),
+    )
+      .then(async (res) => {
+        console.log(res);
+        // TODO IF Success
+        // navigation.navigate(configs.screens.regist.daftarBerhasil, {
+        //   namaPerusahaan: namaPerusahaan,
+        //   kodeDaerah: kodeDaerah,
+        //   nopol: nopol,
+        //   seriDaerah: seriDaerah,
+        //   title: title,
+        //   namaLengkap: namaLengkap,
+        //   tanggalLahir: tanggalLahir,
+        //   role: role,
+        //   nomorHandphone: nomorHandphone,
+        //   email: email,
+        //   showCompanyDataUnit: showCompanyDataUnit,
+        //   password: password,
+        // });
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -162,7 +213,7 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate(configs.screens.regist.daftarBerhasil, {
+              console.log({
                 namaPerusahaan: namaPerusahaan,
                 kodeDaerah: kodeDaerah,
                 nopol: nopol,
@@ -176,6 +227,7 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
                 showCompanyDataUnit: showCompanyDataUnit,
                 password: password,
               });
+              checkRegistration();
             }}
             disabled={isBtnDisabled}
           />
