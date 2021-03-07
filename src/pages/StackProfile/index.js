@@ -1,5 +1,6 @@
 import api from '@actions/api';
 import localstorage from '@actions/constants/localstorage';
+import redux from '@actions/constants/redux';
 import {Button, Loading} from '@components';
 import configs from '@configs';
 import utilities from '@utilities';
@@ -67,17 +68,15 @@ const StackProfile = ({navigation}) => {
     await dispatch(
       api.Authentication.postLogout({
         accessToken: accessToken,
+        navigation: navigation,
       }),
     )
       .then(async (res) => {
         let {success} = res;
 
         if (success) {
-          await utilities.asyncstorage.clearStorage();
-          navigation.reset({
-            index: 0,
-            routes: [{name: configs.screens.login.main}],
-          });
+          dispatch({type: redux.RESET_REDUX});
+          await utilities.navigateRoute.resetToLogin({navigation: navigation});
         }
       })
       .catch((e) => {

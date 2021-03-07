@@ -1,16 +1,17 @@
 'use strict';
 
-import redux from '../constants/redux';
+import redux from '@actions/constants/redux';
 
 const initialState = {
   fetching: false,
   loading: false,
   error: false,
-  status: false,
 };
 
 const reducers = (state = initialState, action) => {
-  if (action.type === redux.API_SERVER_ERROR) {
+  if (action.type === redux.RESET_REDUX) {
+    return initialState;
+  } else if (action.type === redux.API_SERVER_ERROR) {
     return {
       ...state,
       fetching: false,
@@ -18,6 +19,7 @@ const reducers = (state = initialState, action) => {
       error: true,
     };
   } else if (action.type.includes('FETCH')) {
+    delete state[action.type.replace('FETCH', 'RECEIVE')];
     return {
       ...state,
       fetching: true,

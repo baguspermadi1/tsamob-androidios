@@ -1,13 +1,12 @@
-import redux from '../../constants/redux';
-import rest from '../../constants/rest';
+import redux from '@actions/constants/redux';
+import rest from '@actions/constants/rest';
 import template from '../template';
 
 const Authentication = {
   postLoginCustomer: ({email, password}) => {
     return template.fetchAPI({
       method: 'POST',
-      fetchRedux: redux.AUTHENTICATION.LOGIN.FETCH,
-      receiveRedux: redux.AUTHENTICATION.LOGIN.RECEIVE,
+      reduxAction: redux.AUTHENTICATION.LOGIN,
       url: rest.authentication.login,
       body: {
         Username: email,
@@ -18,8 +17,7 @@ const Authentication = {
   postVerifyOTP: ({loginToken, otpCode}) => {
     return template.fetchAPI({
       method: 'POST',
-      fetchRedux: redux.AUTHENTICATION.OTP.FETCH,
-      receiveRedux: redux.AUTHENTICATION.OTP.RECEIVE,
+      reduxAction: redux.AUTHENTICATION.VERIFY_OTP,
       url: rest.authentication.otp,
       body: {
         LoginToken: loginToken,
@@ -27,13 +25,13 @@ const Authentication = {
       },
     });
   },
-  postLogout: ({accessToken}) => {
-    return template.fetchAPI({
+  postLogout: ({accessToken, navigation}) => {
+    return template.fetchAPIAccess({
       method: 'POST',
-      fetchRedux: redux.AUTHENTICATION.LOGOUT.FETCH,
-      receiveRedux: redux.AUTHENTICATION.LOGOUT.RECEIVE,
+      reduxAction: redux.AUTHENTICATION.LOGOUT,
       url: rest.authentication.logout,
-      headers: {Authorization: `Bearer ${accessToken}`},
+      accessToken: accessToken,
+      navigation: navigation,
     });
   },
 };

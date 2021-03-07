@@ -27,7 +27,8 @@ const ProfileGantiPassword = ({navigation}) => {
   const [regexCheck3, setregexCheck3] = useState(false);
   const [isErrorOldPassword, setisErrorOldPassword] = useState(false);
   const [isErrorPassword, setisErrorPassword] = useState(false);
-  const [errorInfoPassword, seterrorInfoPassword] = useState('');
+  const [errorInfoPassword, seterrorInfoPassword] = useState(false);
+  const [errorOldPassword, seterrorOldPassword] = useState(false);
   const [oldPassword, setoldPassword] = useState('');
   const [password, setpassword] = useState('');
 
@@ -104,7 +105,7 @@ const ProfileGantiPassword = ({navigation}) => {
                 rightIconType={'material-community'}
                 onRightIconPress={() => sethideOldPassword(!hideOldPassword)}
                 isError={isErrorOldPassword}
-                errorInfo={'Password Anda Salah'}
+                errorInfo={errorOldPassword}
                 focusAfterError={() => setisErrorOldPassword(false)}
               />
 
