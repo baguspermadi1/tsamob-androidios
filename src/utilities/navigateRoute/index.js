@@ -2,16 +2,11 @@ import configs from '@configs';
 import utilities from '@utilities';
 
 const navigateRoute = {
-  resetRoute: async ({navigation, routeName}) => {
-    try {
-      navigation.reset({
-        index: 0,
-        routes: [{name: routeName}],
-      });
-      return true;
-    } catch (e) {
-      return false;
-    }
+  resetRoute: ({navigation, routeName, params = {}}) => {
+    navigation.reset({
+      index: 0,
+      routes: [{name: routeName, params: params}],
+    });
   },
   resetToLogin: async ({navigation}) => {
     await utilities.asyncstorage.clearStorage();

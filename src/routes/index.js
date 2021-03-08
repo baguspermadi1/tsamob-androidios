@@ -9,6 +9,7 @@ import {
   LupaPasswordBerhasil,
   LupaPasswordEmail,
   LupaPasswordEmailLink,
+  ProfileEdit,
   ProfileGantiPassword,
   RegistrasiBuatAkun,
   RegistrasiBuatPassword,
@@ -22,7 +23,6 @@ import {
   StackNotifikasi,
   StackProfile,
   StackRequest,
-  ProfileEdit,
 } from '@pages';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';

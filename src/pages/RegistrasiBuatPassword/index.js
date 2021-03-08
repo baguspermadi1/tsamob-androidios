@@ -92,21 +92,26 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
     )
       .then(async (res) => {
         console.log(res);
-        // TODO IF Success
-        // navigation.navigate(configs.screens.regist.daftarBerhasil, {
-        //   namaPerusahaan: namaPerusahaan,
-        //   kodeDaerah: kodeDaerah,
-        //   nopol: nopol,
-        //   seriDaerah: seriDaerah,
-        //   title: title,
-        //   namaLengkap: namaLengkap,
-        //   tanggalLahir: tanggalLahir,
-        //   role: role,
-        //   nomorHandphone: nomorHandphone,
-        //   email: email,
-        //   showCompanyDataUnit: showCompanyDataUnit,
-        //   password: password,
-        // });
+        let {success} = res;
+
+        if (success) {
+          navigation.navigate(configs.screens.regist.daftarBerhasil, {
+            namaPerusahaan: namaPerusahaan,
+            kodeDaerah: kodeDaerah,
+            nopol: nopol,
+            seriDaerah: seriDaerah,
+            title: title,
+            namaLengkap: namaLengkap,
+            tanggalLahir: tanggalLahir,
+            role: role,
+            nomorHandphone: nomorHandphone,
+            email: email,
+            showCompanyDataUnit: showCompanyDataUnit,
+            password: password,
+          });
+        } else {
+          console.log('Response', res);
+        }
       })
       .catch((e) => {
         return console.log('Catch Error', e.toString());

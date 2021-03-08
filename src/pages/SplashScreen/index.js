@@ -2,6 +2,7 @@ import localstorage from '@actions/constants/localstorage';
 import configs from '@configs';
 import utilities from '@utilities';
 import React, {useEffect} from 'react';
+import {Linking} from 'react-native';
 import {
   Dimensions,
   SafeAreaView,
@@ -18,7 +19,38 @@ const {width: screenWidth} = Dimensions.get('screen');
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
-    checkToken();
+    const getAsyncURL = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      console.log('Initial URL', initialUrl);
+      // ! Handle initialURL as per your response and open a specific screen using navigation
+      if (initialUrl !== undefined && initialUrl != null) {
+        if (initialUrl.includes('forgot-password')) {
+          var match = initialUrl.split('/forgot-password/')[1];
+          utilities.navigateRoute.resetRoute({
+            navigation: navigation,
+            routeName: configs.screens.forgotPwd.main,
+            params: {
+              resetToken: match,
+            },
+          });
+        } else if (initialUrl.includes('reset-password')) {
+          var match = initialUrl.split('/reset-password/')[1];
+          utilities.navigateRoute.resetRoute({
+            navigation: navigation,
+            routeName: configs.screens.forgotPwd.main,
+            params: {
+              resetToken: match,
+            },
+          });
+        } else {
+          checkToken();
+        }
+      } else {
+        checkToken();
+      }
+    };
+
+    getAsyncURL();
   });
 
   const checkToken = async () => {

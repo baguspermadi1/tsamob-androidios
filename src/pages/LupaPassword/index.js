@@ -24,7 +24,7 @@ import {RFValue} from 'react-native-responsive-fontsize';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
-const LupaPassword = ({navigation}) => {
+const LupaPassword = ({navigation, route}) => {
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [isLoading, setisLoading] = useState(false);
   const [isPwdError, setisPwdError] = useState(false);
@@ -33,6 +33,7 @@ const LupaPassword = ({navigation}) => {
   const [regexCheck2, setregexCheck2] = useState(false);
   const [regexCheck3, setregexCheck3] = useState(false);
   const [password, setpassword] = useState('');
+  const {resetToken} = route.params;
 
   useEffect(() => {
     if (new RegExp(/(?=.*\d)/).test(password)) {

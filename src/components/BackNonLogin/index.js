@@ -1,6 +1,6 @@
 import configs from '@configs';
 import React from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {BackHandler, StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -9,7 +9,9 @@ const Header = ({navigation}) => {
     <>
       <TouchableOpacity
         style={styles.backContainer}
-        onPress={() => navigation.goBack()}>
+        onPress={() =>
+          navigation.canGoBack() ? navigation.goBack() : BackHandler.exitApp()
+        }>
         <Icon
           name="chevron-left"
           color={configs.colors.primary.Sapphire.base}
