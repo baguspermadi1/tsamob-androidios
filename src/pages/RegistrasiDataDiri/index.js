@@ -76,7 +76,9 @@ const RegistrasiDataDiri = ({navigation, route}) => {
     setnamaLengkap(ContactPersonName);
     if (ContactPersonDateOfBirth) {
       settanggalLahir(
-        moment(ContactPersonDateOfBirth, 'YYYY-MM-DD').format('DD-MM-YYYY'),
+        moment(new Date(ContactPersonDateOfBirth).toLocaleDateString()).format(
+          'DD/MM/YYYY',
+        ),
       );
     }
     if (IsPic) {
