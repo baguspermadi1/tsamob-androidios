@@ -1,15 +1,17 @@
 import {
   BackNonLogin,
   Button,
-  DropdownForm,
   DatePickerSimple,
   Dropdown,
+  DropdownForm,
   HeaderNonLogin,
   InputWithSelector,
+  Loading,
   PlatInput,
   TextInput,
 } from '@components';
 import configs from '@configs';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -24,23 +26,70 @@ import {
 } from 'react-native';
 import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
 const RegistrasiDataDiri = ({navigation, route}) => {
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [namaPerusahaan, setnamaPerusahaan] = useState('');
   const [kodeDaerah, setkodeDaerah] = useState('');
   const [nopol, setnopol] = useState('');
   const [seriDaerah, setseriDaerah] = useState('');
-  const [title, settitle] = useState('Bapak');
+  const [title, settitle] = useState('Mr');
   const [namaLengkap, setnamaLengkap] = useState('');
   const [tanggalLahir, settanggalLahir] = useState('');
-  const [role, setrole] = useState('PIC');
+  const [role, setrole] = useState('UP');
   const [nomorHandphone, setnomorHandphone] = useState('');
   const [email, setemail] = useState('');
+  const [licensePlate, setlicensePlate] = useState('');
 
-  const {showCompanyDataUnit} = route.params;
+  const {
+    showCompanyDataUnit,
+    dataCheckRegistration,
+    kodeDaerah: paramKodeDaerah,
+    nopol: paramNopol,
+    seriDaerah: paramseriDaerah,
+  } = route.params;
+
+  useEffect(() => {
+    let {
+      ContactPersonDateOfBirth,
+      ContactPersonEmail,
+      ContactPersonName,
+      ContactPersonPhoneNumber,
+      ContactPersonTitle,
+      CustomerName,
+      IsPic,
+      LicensePlate,
+    } = dataCheckRegistration;
+
+    setnamaPerusahaan(CustomerName);
+    setlicensePlate(LicensePlate);
+    if (ContactPersonTitle) {
+      settitle(ContactPersonTitle);
+    } else {
+      settitle('Mr');
+    }
+    setnamaLengkap(ContactPersonName);
+    if (ContactPersonDateOfBirth) {
+      settanggalLahir(
+        moment(ContactPersonDateOfBirth, 'YYYY-MM-DD').format('DD-MM-YYYY'),
+      );
+    }
+    if (IsPic) {
+      setrole('PIC');
+    } else {
+      setrole('UP');
+    }
+    setnomorHandphone(ContactPersonPhoneNumber);
+    setemail(ContactPersonEmail);
+    setkodeDaerah(paramKodeDaerah);
+    setnopol(paramNopol);
+    setseriDaerah(paramseriDaerah);
+  }, [dataCheckRegistration, paramKodeDaerah, paramNopol, paramseriDaerah]);
 
   useEffect(() => {
     if (showCompanyDataUnit) {
@@ -91,6 +140,7 @@ const RegistrasiDataDiri = ({navigation, route}) => {
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -158,7 +208,7 @@ const RegistrasiDataDiri = ({navigation, route}) => {
             selectText={title}
             onSelect={(value) => settitle(value)}
             idDropDown={'RBSheetNamaLengkap'}
-            dataSelector={['Bapak', 'Ibu']}
+            dataSelector={['Mr', 'Mrs']}
           />
           <DropdownForm
             placeholder={'Tanggal Lahir'}
@@ -178,8 +228,8 @@ const RegistrasiDataDiri = ({navigation, route}) => {
             selectText={role}
             onSelect={(value) => setrole(value.name)}
             dataList={[
-              {name: 'PIC', description: 'Penanggung Jawab'},
               {name: 'UP', description: 'User Pengguna'},
+              {name: 'PIC', description: 'Penanggung Jawab'},
             ]}
             selectDescription={'description'}
             selectTitle={'name'}
@@ -222,6 +272,9 @@ const RegistrasiDataDiri = ({navigation, route}) => {
                 role: role,
                 nomorHandphone: nomorHandphone,
                 email: email,
+                licensePlate: showCompanyDataUnit
+                  ? `${kodeDaerah}${nopol}${seriDaerah}`
+                  : licensePlate,
                 showCompanyDataUnit: showCompanyDataUnit,
               });
             }}

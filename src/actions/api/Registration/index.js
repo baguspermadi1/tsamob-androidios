@@ -17,27 +17,25 @@ const Registration = {
   postVerifyRegistration: ({
     title,
     dateOfBirth,
-    userCode,
     name,
-    username,
     email,
     phoneNumber,
-    roleID,
     password,
+    licensePlate,
+    company,
   }) => {
     return template.fetchAPI({
       method: 'POST',
       reduxAction: redux.REGISTRATION.VERIFY_REGISTRATION,
       url: rest.registration.verifyRegistration,
       body: {
+        Company: company,
+        LicensePlate: licensePlate,
         Title: title,
-        DateOfBirth: dateOfBirth,
-        UserCode: userCode,
         Name: name,
-        Username: username,
-        Email: email,
+        DateOfBirth: dateOfBirth,
         PhoneNumber: phoneNumber,
-        RoleID: roleID,
+        Email: email,
         Password: password,
       },
     });

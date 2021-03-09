@@ -9,6 +9,7 @@ import {
 import configs from '@configs';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import {
   Dimensions,
   Keyboard,
@@ -40,16 +41,13 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
 
   const {
     namaPerusahaan,
-    kodeDaerah,
-    nopol,
-    seriDaerah,
     title,
     namaLengkap,
     tanggalLahir,
-    role,
     nomorHandphone,
     email,
     showCompanyDataUnit,
+    licensePlate,
   } = route.params;
 
   useEffect(() => {
@@ -79,38 +77,35 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
   const checkRegistration = async () => {
     await dispatch(
       api.Registration.postVerifyRegistration({
+        company: namaPerusahaan,
+        licensePlate: licensePlate,
         title: title,
-        dateOfBirth: moment(tanggalLahir, 'DD-MM-YYYY').format('YYYY-MM-DD'),
-        userCode: '',
         name: namaLengkap,
-        username: email,
-        email: email,
+        dateOfBirth: moment(tanggalLahir, 'DD-MM-YYYY').format('YYYY-MM-DD'),
         phoneNumber: nomorHandphone,
-        roleID: role === 'PIC' ? 1 : 2,
+        email: email,
         password: password,
       }),
     )
       .then(async (res) => {
-        console.log(res);
-        let {success} = res;
+        let {success, title: titleError, message, error_code, errors} = res;
+        console.log('Response', JSON.stringify(res));
 
         if (success) {
           navigation.navigate(configs.screens.regist.daftarBerhasil, {
-            namaPerusahaan: namaPerusahaan,
-            kodeDaerah: kodeDaerah,
-            nopol: nopol,
-            seriDaerah: seriDaerah,
-            title: title,
-            namaLengkap: namaLengkap,
-            tanggalLahir: tanggalLahir,
-            role: role,
-            nomorHandphone: nomorHandphone,
-            email: email,
             showCompanyDataUnit: showCompanyDataUnit,
-            password: password,
           });
         } else {
-          console.log('Response', res);
+          if (error_code === 'inline_validations') {
+            let errorBundling = [];
+            errors.map((item) => {
+              let errorMessages = item.messages.join('\n');
+              errorBundling.push(errorMessages);
+            });
+            Alert.alert('Error', errorBundling.join('\n'), [{text: 'OK'}]);
+          } else {
+            Alert.alert(titleError, message, [{text: 'OK'}]);
+          }
         }
       })
       .catch((e) => {
@@ -218,20 +213,6 @@ const RegistrasiBuatPassword = ({navigation, route}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              console.log({
-                namaPerusahaan: namaPerusahaan,
-                kodeDaerah: kodeDaerah,
-                nopol: nopol,
-                seriDaerah: seriDaerah,
-                title: title,
-                namaLengkap: namaLengkap,
-                tanggalLahir: tanggalLahir,
-                role: role,
-                nomorHandphone: nomorHandphone,
-                email: email,
-                showCompanyDataUnit: showCompanyDataUnit,
-                password: password,
-              });
               checkRegistration();
             }}
             disabled={isBtnDisabled}

@@ -41,6 +41,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
   const [rbSheetDescValidate, setrbSheetDescValidate] = useState('');
   const [isPhoneError, setisPhoneError] = useState(false);
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
+  const [dataCheckRegistration, setdataCheckRegistration] = useState({});
 
   useEffect(() => {
     if (
@@ -64,7 +65,8 @@ const RegistrasiBuatAkun = ({navigation}) => {
       }),
     )
       .then(async (res) => {
-        let {error_code, message, title} = res;
+        let {error_code, message, title, data} = res;
+        setdataCheckRegistration(data);
         seterrorCode(error_code);
         setrbSheetTitleValidate(title);
         setrbSheetDescValidate(message);
@@ -260,6 +262,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
                       nopol: nopol,
                       seriDaerah: seriDaerah,
                       showCompanyDataUnit: false,
+                      dataCheckRegistration: dataCheckRegistration,
                     });
                   } else if (
                     errorCode === 'connect_phone_number' ||
@@ -271,6 +274,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
                       nopol: nopol,
                       seriDaerah: seriDaerah,
                       showCompanyDataUnit: true,
+                      dataCheckRegistration: dataCheckRegistration,
                     });
                   }
                 }}
@@ -287,6 +291,7 @@ const RegistrasiBuatAkun = ({navigation}) => {
                       nopol: nopol,
                       seriDaerah: seriDaerah,
                       showCompanyDataUnit: false,
+                      dataCheckRegistration: dataCheckRegistration,
                     });
                   }}
                 />
