@@ -19,29 +19,6 @@ const {width: screenWidth} = Dimensions.get('screen');
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
-    // const getAsyncURL = async () => {
-    //   const initialUrl = await Linking.getInitialURL();
-    //   console.log('Initial URL', initialUrl);
-    //   // ! Handle initialURL as per your response and open a specific screen using navigation
-    //   if (initialUrl !== undefined && initialUrl != null) {
-    //     if (initialUrl.includes('reset-password')) {
-    //       var match = initialUrl.split('/reset-password/')[1];
-    //       utilities.navigateRoute.resetRoute({
-    //         navigation: navigation,
-    //         routeName: configs.screens.forgotPwd.main,
-    //         params: {
-    //           resetToken: match,
-    //         },
-    //       });
-    //     } else {
-    //       checkToken();
-    //     }
-    //   } else {
-    //     checkToken();
-    //   }
-    // };
-
-    // getAsyncURL();
     checkToken();
   });
 

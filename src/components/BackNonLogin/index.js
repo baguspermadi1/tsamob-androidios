@@ -1,6 +1,7 @@
 import configs from '@configs';
+import utilities from '@utilities';
 import React from 'react';
-import {BackHandler, StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 
@@ -9,8 +10,12 @@ const Header = ({navigation}) => {
     <>
       <TouchableOpacity
         style={styles.backContainer}
-        onPress={() =>
-          navigation.canGoBack() ? navigation.goBack() : BackHandler.exitApp()
+        onPress={async () =>
+          navigation.canGoBack()
+            ? navigation.goBack()
+            : await utilities.navigateRoute.resetToLogin({
+                navigation: navigation,
+              })
         }>
         <Icon
           name="chevron-left"

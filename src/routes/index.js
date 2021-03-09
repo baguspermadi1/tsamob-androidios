@@ -27,7 +27,7 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {Linking} from 'react-native';
+import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 
@@ -81,46 +81,26 @@ const StackScreen = [
   },
 ];
 
-function Router() {
+const Router = () => {
   const linking = {
-    prefixes: ['https://web-tsa.23-97-51-9.nip.io', 'tsasera://app'],
-
-    async getInitialURL() {
-      const url = await Linking.getInitialURL();
-
-      if (url != null) {
-        console.log('initialURL', url);
-        return url;
-      }
-    },
-
-    subscribe(listener) {
-      const onReceiveURL = ({url}) => {
-        console.log('receiveURL', url);
-        listener(url);
-      };
-
-      Linking.addEventListener('url', onReceiveURL);
-
-      return () => {
-        Linking.removeEventListener('url', onReceiveURL);
-      };
-    },
-
+    prefixes: ['https://web-tsa.23-97-51-9.nip.io', 'tsasera://'],
     config: {
       screens: {
         [configs.screens.login.main]: {
           path: 'login',
         },
         [configs.screens.forgotPwd.main]: {
-          path: 'reset-password/:id/:section',
+          path: 'reset-password/:resetToken',
+          parse: {
+            resetToken: (resetToken) => resetToken,
+          },
         },
       },
     },
   };
 
   return (
-    <NavigationContainer linking={linking}>
+    <NavigationContainer linking={linking} ref={RootNavigation.navigationRef}>
       <Stack.Navigator
         initialRouteName={configs.screens.splashScreen}
         screenOptions={{headerShown: false}}>
@@ -134,6 +114,6 @@ function Router() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default Router;
