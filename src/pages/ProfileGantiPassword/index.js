@@ -1,5 +1,8 @@
-import {Button, HeaderLogin, TextInput} from '@components';
+import api from '@actions/api';
+import localstorage from '@actions/constants/localstorage';
+import {Button, HeaderLogin, Loading, TextInput} from '@components';
 import configs from '@configs';
+import utilities from '@utilities';
 import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
@@ -14,11 +17,16 @@ import {
   View,
 } from 'react-native';
 import {Icon} from 'react-native-elements';
+import RBSheet from 'react-native-raw-bottom-sheet';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
-const {width: screenWidth} = Dimensions.get('screen');
+const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 
 const ProfileGantiPassword = ({navigation}) => {
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [hideOldPassword, sethideOldPassword] = useState(true);
   const [hidePassword, sethidePassword] = useState(true);
@@ -26,11 +34,23 @@ const ProfileGantiPassword = ({navigation}) => {
   const [regexCheck2, setregexCheck2] = useState(false);
   const [regexCheck3, setregexCheck3] = useState(false);
   const [isErrorOldPassword, setisErrorOldPassword] = useState(false);
-  const [isErrorPassword, setisErrorPassword] = useState(false);
-  const [errorInfoPassword, seterrorInfoPassword] = useState(false);
-  const [errorOldPassword, seterrorOldPassword] = useState(false);
+  const [isErrorNewPassword, setisErrorNewPassword] = useState(false);
+  const [errorInfoOldPassword, seterrorInfoOldPassword] = useState(false);
+  const [errorInfoNewPassword, seterrorInfoNewPassword] = useState(false);
   const [oldPassword, setoldPassword] = useState('');
   const [password, setpassword] = useState('');
+  const [accessToken, setaccessToken] = useState('');
+
+  useEffect(() => {
+    checkToken();
+  });
+
+  const checkToken = async () => {
+    let token = await utilities.asyncstorage.readEncryptStorage({
+      key: localstorage.AUTHENTICATION.ACCESS_TOKEN,
+    });
+    setaccessToken(token);
+  };
 
   useEffect(() => {
     if (new RegExp(/(?=.*\d)/).test(password)) {
@@ -54,7 +74,7 @@ const ProfileGantiPassword = ({navigation}) => {
       regexCheck2 &&
       regexCheck3 &&
       !isErrorOldPassword &&
-      !isErrorPassword
+      !isErrorNewPassword
     ) {
       setisBtnDisabled(false);
     } else {
@@ -62,17 +82,54 @@ const ProfileGantiPassword = ({navigation}) => {
     }
   }, [
     isErrorOldPassword,
-    isErrorPassword,
+    isErrorNewPassword,
     password,
     regexCheck1,
     regexCheck2,
     regexCheck3,
   ]);
 
+  const changePassword = async () => {
+    await dispatch(
+      api.Password.postChangePassword({
+        oldPassword: oldPassword,
+        newPassword: password,
+        navigation: navigation,
+        accessToken: accessToken,
+      }),
+    )
+      .then(async (res) => {
+        let {error_code, errors, success} = res;
+
+        if (success) {
+          this.RBSheet.open();
+        } else {
+          if (error_code === 'inline_validations') {
+            errors.map((item) => {
+              let errorMessages = item.messages.join('\n');
+
+              if (item.field === 'OldPassword') {
+                setisErrorOldPassword(true);
+                seterrorInfoOldPassword(errorMessages);
+              }
+              if (item.field === 'NewPassword') {
+                setisErrorNewPassword(true);
+                seterrorInfoNewPassword(errorMessages);
+              }
+            });
+          }
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <>
       <SafeAreaView style={styles.body}>
         <HeaderLogin title={'Ubah Password'} navigation={navigation} />
+        <Loading isLoading={loadingRedux} />
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : null}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -92,21 +149,16 @@ const ProfileGantiPassword = ({navigation}) => {
                 keyboardType={'default'}
                 onChangeText={(text) => {
                   setoldPassword(text);
-                  if (password === text) {
-                    setisErrorPassword(true);
-                    seterrorInfoPassword(
-                      'Password Tidak Boleh Sama Dengan Yang Lama',
-                    );
-                  } else {
-                    setisErrorPassword(false);
-                  }
                 }}
                 rightIcon={hideOldPassword ? 'eye-outline' : 'eye-off-outline'}
                 rightIconType={'material-community'}
                 onRightIconPress={() => sethideOldPassword(!hideOldPassword)}
                 isError={isErrorOldPassword}
-                errorInfo={errorOldPassword}
-                focusAfterError={() => setisErrorOldPassword(false)}
+                errorInfo={errorInfoOldPassword}
+                focusAfterError={() => {
+                  setisErrorOldPassword(false);
+                  seterrorInfoOldPassword(false);
+                }}
               />
 
               <TouchableOpacity
@@ -130,29 +182,15 @@ const ProfileGantiPassword = ({navigation}) => {
                 keyboardType={'default'}
                 onChangeText={(text) => {
                   setpassword(text);
-                  if (text === oldPassword) {
-                    setisErrorPassword(true);
-                    seterrorInfoPassword(
-                      'Password Tidak Boleh Sama Dengan Yang Lama',
-                    );
-                  } else {
-                    setisErrorPassword(false);
-                  }
                 }}
                 rightIcon={hidePassword ? 'eye-outline' : 'eye-off-outline'}
                 rightIconType={'material-community'}
                 onRightIconPress={() => sethidePassword(!hidePassword)}
-                isError={isErrorPassword}
-                errorInfo={errorInfoPassword}
+                isError={isErrorNewPassword}
+                errorInfo={errorInfoNewPassword}
                 focusAfterError={() => {
-                  if (password === oldPassword) {
-                    setisErrorPassword(true);
-                    seterrorInfoPassword(
-                      'Password Tidak Boleh Sama Dengan Yang Lama',
-                    );
-                  } else {
-                    setisErrorPassword(false);
-                  }
+                  setisErrorNewPassword(false);
+                  seterrorInfoNewPassword(false);
                 }}
               />
             </View>
@@ -226,12 +264,41 @@ const ProfileGantiPassword = ({navigation}) => {
               text={'Ubah Password'}
               onPress={() => {
                 Keyboard.dismiss();
-                setisErrorOldPassword(true);
-                seterrorInfoPassword('Password Anda Salah');
+                changePassword();
               }}
               disabled={isBtnDisabled}
             />
           </View>
+          <RBSheet
+            ref={(ref) => {
+              this.RBSheet = ref;
+            }}
+            height={screenHeight * 0.25}
+            onClose={() => {
+              navigation.goBack();
+            }}
+            customStyles={{
+              container: {
+                paddingBottom: RFValue(16),
+                borderRadius: RFValue(16),
+              },
+            }}>
+            <View style={styles.rbSheetView}>
+              <Text style={styles.rbSheetTitle}>Berhasil Diubah</Text>
+              <Text style={styles.rbSheetDesc}>
+                Password Anda Telah Berhasil diubah
+              </Text>
+              <View style={styles.containerBottomSheet}>
+                <Button
+                  text={'Kembali Ke Halaman Sebelumnya'}
+                  onPress={() => {
+                    this.RBSheet.close();
+                    navigation.goBack();
+                  }}
+                />
+              </View>
+            </View>
+          </RBSheet>
         </KeyboardAvoidingView>
         <View style={styles.scrollinset}>
           <View style={styles.topBounce} />
@@ -299,6 +366,27 @@ const styles = StyleSheet.create({
     fontFamily: configs.fonts.OpenSans.SemiBold,
     fontSize: configs.sizes.Text.S,
     marginBottom: RFValue(4),
+  },
+  rbSheetDesc: {
+    fontFamily: configs.fonts.OpenSans.Regular,
+    fontSize: configs.sizes.Text.M,
+    color: configs.colors.neutral.Grey.dark,
+    textAlign: 'center',
+    marginBottom: RFValue(24),
+  },
+  rbSheetTitle: {
+    fontFamily: configs.fonts.OpenSans.Bold,
+    fontSize: configs.sizes.Text.L,
+    color: configs.colors.neutral.Grey.dark,
+    textAlign: 'center',
+    marginBottom: RFValue(8),
+  },
+  rbSheetView: {padding: RFValue(16), flex: 1},
+  containerBottomSheet: {
+    bottom: 0,
+    position: 'absolute',
+    alignSelf: 'center',
+    width: screenWidth * 0.9,
   },
 });
 

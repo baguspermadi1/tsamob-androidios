@@ -10,6 +10,7 @@ const redux = {
   },
   PASSWORD: {
     FORGOT: 'FORGOT_PASSWORD',
+    RESET: 'RESET_PASSWORD',
     CHANGE: 'CHANGE_PASSWORD',
   },
   REGISTRATION: {

@@ -17,7 +17,8 @@ const rest = {
   },
   password: {
     forgot: `${baseUrl}/api/v1/account/forgot-password`,
-    reset: `${baseUrl}api/v1/account/reset-password`,
+    reset: `${baseUrl}/api/v1/account/reset-password`,
+    change: `${baseUrl}/api/v1/account/update-password`,
   },
   registration: {
     check: `${baseUrl}/api/v1/account/check-user`,
