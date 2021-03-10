@@ -62,12 +62,12 @@ steps:
 - task: CmdLine@2
   displayName: "Rename build build artifact to include build number"
   inputs:
-    script: 'mv output/package/TSA_MOB.ipa output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    script: 'mv output/package/TSA_MOB.ipa output/package/TSA_MOB$(Build.BuildNumber).ipa'
   
 - task: PublishBuildArtifacts@1
   displayName: "Publish Build Artifact"
   inputs:
-    PathtoPublish: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    PathtoPublish: 'output/package/TSA_MOB$(Build.BuildNumber).ipa'
     ArtifactName: 'drop'
     publishLocation: 'Container'
   
@@ -77,8 +77,8 @@ steps:
   inputs:
     serverEndpoint: 'BPE_AppCenter'
     appSlug: 'SERASI-AUTORAYA/BPE-Research-Ios'
-    appFile: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
-    symbolsDsymFiles: 'output/archive/ReactNativePipeline.xcarchive/dSYMs'
+    appFile: 'output/package/TSA_MOB$(Build.BuildNumber).ipa'
+    symbolsDsymFiles: 'output/archive/TSA_MOB.xcarchive/dSYMs'
     releaseNotesOption: 'input'
     releaseNotesInput: |
       $(Build.SourceVersionMessage)
