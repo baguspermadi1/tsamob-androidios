@@ -1,0 +1,89 @@
+# Node.js with React
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+
+trigger:
+- dev-sprint1
+
+pool:
+  vmImage: 'macos-latest'
+
+name: $(Environment)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+  displayName: 'npm install and build'
+
+- task: CocoaPods@0
+  displayName: "Install CocoaPods dependencies"
+  inputs:
+    workingDirectory: ios
+    forceRepoUpdate: false
+
+- task: InstallAppleCertificate@2
+  displayName: "Install Apple Certificate"
+  inputs:
+    certSecureFile: 'Certificates.p12'
+    certPwd: '$(CertificatePassword)'
+
+- task: InstallAppleProvisioningProfile@1
+  displayName: "Install Apple provisioning profile"
+  inputs:
+    provisioningProfileLocation: 'secureFiles'
+    provProfileSecureFile: 'trac_tsa_hoc.mobileprovision'
+
+- task: Xcode@5
+  inputs:
+    actions: 'build'
+    configuration: '$(Environment)'
+    sdk: 'iphoneos13.2'
+    xcWorkspacePath: 'ios/TSA_MOB.xcworkspace'
+    scheme: 'TSA_MOB'
+    packageApp: false
+    exportPath: 'output/package'
+    exportTeamId: 'PZ5SBMF74R'
+    teamId: 'PZ5SBMF74R'
+    archivePath: 'output/archive'
+    signingOption: 'manual'
+    provisioningProfileUuid: '8a3351e4-1f20-43ae-a02b-0d8bb1e1e529'
+    provisioningProfileName: 'trac_tsa_hoc'
+    xcodeVersion: 'specifyPath'
+    xcodeDeveloperDir: '/Applications/Xcode_11.3.app/Contents/Developer'
+
+
+
+- task: CmdLine@2
+  displayName: "Rename build build artifact to include build number"
+  inputs:
+    script: 'mv output/package/TSA_MOB.ipa output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+  
+- task: PublishBuildArtifacts@1
+  displayName: "Publish Build Artifact"
+  inputs:
+    PathtoPublish: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  
+- task: AppCenterDistribute@3
+  displayName: "Create a release on App Center"
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  inputs:
+    serverEndpoint: 'BPE_AppCenter'
+    appSlug: 'SERASI-AUTORAYA/BPE-Research-Ios'
+    appFile: 'output/package/ReactNativePipeline$(Build.BuildNumber).ipa'
+    symbolsDsymFiles: 'output/archive/ReactNativePipeline.xcarchive/dSYMs'
+    releaseNotesOption: 'input'
+    releaseNotesInput: |
+      $(Build.SourceVersionMessage)
+      
+      latest source: '$(Build.SourceVersion)'
+      
+      An automated release from Azure DevOps
+    destinationType: 'groups'
