@@ -10,7 +10,7 @@ trigger:
 pool:
   vmImage: 'macos-latest'
 
-name: $(Environment)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
+name: iOS_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 steps:
 - task: NodeTool@0
   inputs:
@@ -42,7 +42,7 @@ steps:
 - task: Xcode@5
   inputs:
     actions: 'build'
-    configuration: '$(Environment)'
+    configuration: 'Release'
     sdk: 'iphoneos13.2'
     xcWorkspacePath: 'ios/TSA_MOB.xcworkspace'
     scheme: 'TSA_MOB'
