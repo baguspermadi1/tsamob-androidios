@@ -249,7 +249,15 @@ const RegistrasiBuatAkun = ({navigation}) => {
                 onPress={() => {
                   this.RBSheetValidate.close();
                   if (errorCode === 'contract_end') {
-                    Linking.openURL('tel:081268006675');
+                    this.RBSheetValidate.close();
+                    navigation.navigate(configs.screens.regist.dataDiri, {
+                      phoneNumber: phoneNumber,
+                      kodeDaerah: kodeDaerah,
+                      nopol: nopol,
+                      seriDaerah: seriDaerah,
+                      showCompanyDataUnit: false,
+                      dataCheckRegistration: dataCheckRegistration,
+                    });
                   } else if (errorCode === 'account_registered') {
                     navigation.reset({
                       index: 0,
@@ -285,14 +293,6 @@ const RegistrasiBuatAkun = ({navigation}) => {
                   text={'Mengerti'}
                   onPress={() => {
                     this.RBSheetValidate.close();
-                    navigation.navigate(configs.screens.regist.dataDiri, {
-                      phoneNumber: phoneNumber,
-                      kodeDaerah: kodeDaerah,
-                      nopol: nopol,
-                      seriDaerah: seriDaerah,
-                      showCompanyDataUnit: false,
-                      dataCheckRegistration: dataCheckRegistration,
-                    });
                   }}
                 />
               )}
