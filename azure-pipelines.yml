@@ -73,7 +73,6 @@ steps:
   
 - task: AppCenterDistribute@3
   displayName: "Create a release on App Center"
-  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
   inputs:
     serverEndpoint: 'BPE_AppCenter'
     appSlug: 'SERASI-AUTORAYA/BPE-Research-Ios'
