@@ -46,7 +46,7 @@ steps:
     sdk: 'iphoneos13.2'
     xcWorkspacePath: 'ios/TSA_MOB.xcworkspace'
     scheme: 'TSA_MOB'
-    packageApp: false
+    packageApp: true
     exportPath: 'output/package'
     exportTeamId: 'PZ5SBMF74R'
     teamId: 'PZ5SBMF74R'
