@@ -2,9 +2,14 @@
   "name": "TSA_MOB",
   "displayName": "TRAC Service",
   "environment": "development",
+  "appVersion": "1.0.0",
   "url": {
     "prod": "https://prod.sera-tsa.com",
     "qa": "https://qa.sera-tsa.com",
-    "dev": "https://dev.sera-tsa.com"
+    "dev": "https://api.23-97-51-9.nip.io"
+  },
+  "crypto": {
+    "secretKey": "rNs3r4s14ut0r4YA",
+    "iv": "tsamobtracapps12"
   }
 }

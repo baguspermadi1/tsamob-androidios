@@ -1,7 +1,13 @@
-import Login from './Registrasi';
+import AccessToken from './AccessToken';
+import Authentication from './Authentication';
+import Password from './Password';
+import Registration from './Registration';
 
 const api = {
-  Login,
+  Authentication,
+  AccessToken,
+  Password,
+  Registration,
 };
 
 export default api;

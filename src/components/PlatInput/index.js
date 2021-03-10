@@ -10,6 +10,7 @@ const PlatInput = ({
   placeholder,
   onChangeText,
   keyboardType,
+  length = 4,
 }) => {
   const [isFocus, setisFocus] = useState(false);
   const [colorFocus, setcolorFocus] = useState(null);
@@ -18,7 +19,7 @@ const PlatInput = ({
     if (isFocus) {
       setcolorFocus(configs.colors.primary.Sapphire.base);
     } else {
-      setcolorFocus('#86939E');
+      setcolorFocus(configs.colors.neutral.states.blur);
     }
   }, [isFocus]);
 
@@ -46,7 +47,9 @@ const PlatInput = ({
           onFocus={(e) => setisFocus(true)}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
-            onChangeText(text);
+            if (text.length <= length) {
+              onChangeText(text);
+            }
           }}
         />
       </View>
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: configs.sizes.Text.M,
-    fontFamily: configs.fonts.OpenSans.Regular,
+    fontFamily: configs.fonts.OpenSans.SemiBold,
     color: configs.colors.primary.Sapphire.dark,
   },
   inputContainer: {borderBottomWidth: 0},

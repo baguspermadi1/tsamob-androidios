@@ -1,6 +1,6 @@
 import {BackNonLogin, Button, HeaderNonLogin} from '@components';
 import configs from '@configs';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -15,7 +15,28 @@ import {RFValue} from 'react-native-responsive-fontsize';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
-const RegistrasiPendaftaranBerhasil = ({navigation}) => {
+const RegistrasiPendaftaranBerhasil = ({navigation, route}) => {
+  const [headerTitle, setheaderTitle] = useState('Pembuatan Akun Berhasil');
+  const [headerDesc, setheaderDesc] = useState(
+    'Segera lakukan aktivasi akun Anda dengan mengklik tautan yang dikirimkan melalui email',
+  );
+
+  const {showCompanyDataUnit} = route.params;
+
+  useEffect(() => {
+    if (showCompanyDataUnit) {
+      setheaderTitle('Akun Dalam Proses Verifikasi');
+      setheaderDesc(
+        'Akun Anda sedang dalam proses verifikasi, mohon tunggu email selanjutnya.',
+      );
+    } else {
+      setheaderTitle('Pembuatan Akun Berhasil');
+      setheaderDesc(
+        'Segera lakukan aktivasi akun Anda dengan mengklik tautan yang dikirimkan melalui email',
+      );
+    }
+  }, [showCompanyDataUnit]);
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
@@ -28,10 +49,8 @@ const RegistrasiPendaftaranBerhasil = ({navigation}) => {
           <BackNonLogin navigation={navigation} />
           <HeaderNonLogin
             navigation={navigation}
-            title={'Pendaftaran Berhasil!'}
-            description={
-              'Data pendukung registrasi anda telah berhasil dilengkapi, silahkan cek email anda untuk informasi aktifasi akun.'
-            }
+            title={headerTitle}
+            description={headerDesc}
           />
         </View>
         <View style={styles.containerBottom}>

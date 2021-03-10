@@ -1,10 +1,12 @@
+import api from '@actions/api';
+import localstorage from '@actions/constants/localstorage';
 import {BackNonLogin, Button, HeaderNonLogin, Loading} from '@components';
 import configs from '@configs';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
+import utilities from '@utilities';
 import React, {useState} from 'react';
 import {
   Dimensions,
-  Keyboard,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
@@ -17,19 +19,57 @@ import {
 } from 'react-native';
 import CountDown from 'react-native-countdown-component';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
-const LoginVerifikasiOTP = ({navigation}) => {
-  const [isLoading, setisLoading] = useState(false);
+const LoginVerifikasiOTP = ({navigation, route}) => {
   const [otp, setotp] = useState('');
   const [isErrorOTP, setisErrorOTP] = useState(false);
   const [errorOTPDesc, seterrorOTPDesc] = useState(false);
   const [isTimeout, setisTimeout] = useState(false);
 
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+  const {login_token} = route.params;
+
+  const fetchVerifyOTP = async (otpCode) => {
+    await dispatch(
+      api.Authentication.postVerifyOTP({
+        loginToken: login_token,
+        otpCode: otpCode,
+      }),
+    )
+      .then(async (res) => {
+        let {error_code, success, message, data} = res;
+
+        if (success) {
+          await utilities.asyncstorage.storeEncryptStorage({
+            key: localstorage.AUTHENTICATION.ACCESS_TOKEN,
+            value: data.access_token,
+          });
+          navigation.reset({
+            index: 0,
+            routes: [{name: configs.screens.stack.main}],
+          });
+        } else if (error_code === 'wrong_otp') {
+          setisErrorOTP(true);
+          seterrorOTPDesc(message);
+        } else if (error_code === 'otp_expired') {
+          setisErrorOTP(true);
+          seterrorOTPDesc(message);
+          setisTimeout(true);
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -37,7 +77,6 @@ const LoginVerifikasiOTP = ({navigation}) => {
         enabled>
         <BackNonLogin navigation={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <Loading isLoading={isLoading} />
           <HeaderNonLogin
             navigation={navigation}
             title={'Verifikasi'}
@@ -57,7 +96,7 @@ const LoginVerifikasiOTP = ({navigation}) => {
                     fontFamily: configs.fonts.OpenSans.Bold,
                     marginBottom: RFValue(16),
                   }}>
-                  08574839222
+                  0857483xxxx
                 </Text>
               </Text>
             }
@@ -65,8 +104,6 @@ const LoginVerifikasiOTP = ({navigation}) => {
           <OTPInputView
             style={{height: RFValue(72)}}
             pinCount={4}
-            code={otp}
-            autoFocusOnLoad
             codeInputFieldStyle={{
               ...styles.codeInputField,
               borderColor: isErrorOTP
@@ -76,12 +113,10 @@ const LoginVerifikasiOTP = ({navigation}) => {
             codeInputHighlightStyle={{
               borderColor: configs.colors.primary.Sapphire.base,
             }}
-            onCodeFilled={(code) => {
-              setotp(code);
-            }}
+            onCodeFilled={(code) => fetchVerifyOTP(code)}
             onCodeChanged={(code) => {
-              setisErrorOTP(false);
               setotp(code);
+              setisErrorOTP(false);
             }}
           />
           {isErrorOTP && <Text style={styles.errorInfo}>{errorOTPDesc}</Text>}
@@ -101,7 +136,7 @@ const LoginVerifikasiOTP = ({navigation}) => {
             </TouchableOpacity>
           ) : (
             <CountDown
-              until={5}
+              until={60}
               size={RFValue(20)}
               timeToShow={['M', 'S']}
               timeLabels={{m: null, s: null}}
@@ -127,21 +162,9 @@ const LoginVerifikasiOTP = ({navigation}) => {
         <View style={styles.containerBottom}>
           <Button
             text={'Login'}
+            disabled={otp.length < 4}
             onPress={() => {
-              Keyboard.dismiss();
-              setisLoading(true);
-              setTimeout(() => {
-                setisLoading(false);
-                seterrorOTPDesc('Kode verifikasi salah');
-                seterrorOTPDesc(
-                  'kode verifikasi sudah tidak berlaku, silahkan kirim ulang',
-                );
-                setisErrorOTP(true);
-                navigation.reset({
-                  index: 0,
-                  routes: [{name: configs.screens.stack.main}],
-                });
-              }, 1000);
+              fetchVerifyOTP(otp);
             }}
           />
         </View>
@@ -173,7 +196,7 @@ const styles = StyleSheet.create({
     height: RFValue(64),
     borderWidth: 1,
     borderRadius: RFValue(6),
-    backgroundColor: 'white',
+    backgroundColor: configs.colors.neutral.White.base,
     color: configs.colors.primary.Sapphire.base,
     fontSize: configs.sizes.Text.M * 2,
     justifyContent: 'center',

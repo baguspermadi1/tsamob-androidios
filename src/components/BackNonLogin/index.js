@@ -1,4 +1,5 @@
 import configs from '@configs';
+import utilities from '@utilities';
 import React from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Icon} from 'react-native-elements';
@@ -9,7 +10,13 @@ const Header = ({navigation}) => {
     <>
       <TouchableOpacity
         style={styles.backContainer}
-        onPress={() => navigation.goBack()}>
+        onPress={async () =>
+          navigation.canGoBack()
+            ? navigation.goBack()
+            : await utilities.navigateRoute.resetToLogin({
+                navigation: navigation,
+              })
+        }>
         <Icon
           name="chevron-left"
           color={configs.colors.primary.Sapphire.base}

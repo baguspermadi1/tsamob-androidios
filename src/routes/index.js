@@ -1,17 +1,23 @@
 import configs from '@configs';
 import {
+  DaftarPemakaiKendaraanDaftarKendaraan,
+  DaftarPemakaiKendaraanDaftarPemakai,
+  DaftarPemakaiKendaraanStack,
   Login,
   LoginVerifikasiOTP,
   LupaPassword,
   LupaPasswordBerhasil,
   LupaPasswordEmail,
   LupaPasswordEmailLink,
+  ProfileEdit,
+  ProfileGantiPassword,
   RegistrasiBuatAkun,
   RegistrasiBuatPassword,
   RegistrasiDataDiri,
-  RegistrasiForm,
-  RegistrasiNomorKendaraan,
   RegistrasiPendaftaranBerhasil,
+  RequestUpdateUnitEndUser,
+  RequestUpdateUnitPICCustomer,
+  SplashScreen,
   StackHome,
   StackMenu,
   StackNotifikasi,
@@ -21,16 +27,22 @@ import {
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import * as RootNavigation from './RootNavigation';
 
 const Stack = createStackNavigator();
 
 const StackScreen = [
-  {name: configs.screens.regist.buatAkun, component: RegistrasiBuatAkun},
   {
-    name: configs.screens.regist.noKendaraan,
-    component: RegistrasiNomorKendaraan,
+    name: configs.screens.splashScreen,
+    component: SplashScreen,
   },
-  {name: configs.screens.regist.form, component: RegistrasiForm},
+  {name: configs.screens.login.main, component: Login},
+  {name: configs.screens.login.verifikasi, component: LoginVerifikasiOTP},
+  {name: configs.screens.forgotPwd.email, component: LupaPasswordEmail},
+  {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
+  {name: configs.screens.forgotPwd.main, component: LupaPassword},
+  {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
+  {name: configs.screens.regist.buatAkun, component: RegistrasiBuatAkun},
   {name: configs.screens.regist.dataDiri, component: RegistrasiDataDiri},
   {
     name: configs.screens.regist.buatPassword,
@@ -40,24 +52,57 @@ const StackScreen = [
     name: configs.screens.regist.daftarBerhasil,
     component: RegistrasiPendaftaranBerhasil,
   },
-  {name: configs.screens.login.main, component: Login},
-  {name: configs.screens.login.verifikasi, component: LoginVerifikasiOTP},
-  {name: configs.screens.forgotPwd.email, component: LupaPasswordEmail},
-  {name: configs.screens.forgotPwd.emailLink, component: LupaPasswordEmailLink},
-  {name: configs.screens.forgotPwd.main, component: LupaPassword},
-  {name: configs.screens.forgotPwd.berhasil, component: LupaPasswordBerhasil},
   {name: configs.screens.stack.main, component: StackMenu},
   {name: configs.screens.stack.home, component: StackHome},
   {name: configs.screens.stack.request, component: StackRequest},
   {name: configs.screens.stack.notifikasi, component: StackNotifikasi},
   {name: configs.screens.stack.profile, component: StackProfile},
+  {name: configs.screens.profile.edit, component: ProfileEdit},
+  {name: configs.screens.profile.gantiPass, component: ProfileGantiPassword},
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.main,
+    component: DaftarPemakaiKendaraanStack,
+  },
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.daftarKendaraan,
+    component: DaftarPemakaiKendaraanDaftarKendaraan,
+  },
+  {
+    name: configs.screens.profile.daftarPemakaiKendaraan.daftarPemakai,
+    component: DaftarPemakaiKendaraanDaftarPemakai,
+  },
+  {
+    name: configs.screens.profile.requestUMD.endUser,
+    component: RequestUpdateUnitEndUser,
+  },
+  {
+    name: configs.screens.profile.requestUMD.picCustomer,
+    component: RequestUpdateUnitPICCustomer,
+  },
 ];
 
-function Router() {
+const Router = () => {
+  const linking = {
+    prefixes: ['https://web-tsa.23-97-51-9.nip.io', 'tsasera://'],
+    config: {
+      screens: {
+        [configs.screens.login.main]: {
+          path: 'login',
+        },
+        [configs.screens.forgotPwd.main]: {
+          path: 'reset-password/:resetToken',
+          parse: {
+            resetToken: (resetToken) => resetToken,
+          },
+        },
+      },
+    },
+  };
+
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking} ref={RootNavigation.navigationRef}>
       <Stack.Navigator
-        initialRouteName={configs.screens.login.main}
+        initialRouteName={configs.screens.splashScreen}
         screenOptions={{headerShown: false}}>
         {StackScreen.map((item, index) => (
           <Stack.Screen
@@ -69,6 +114,6 @@ function Router() {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};
 
 export default Router;

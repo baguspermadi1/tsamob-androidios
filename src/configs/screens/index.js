@@ -1,8 +1,7 @@
 const screens = {
+  splashScreen: 'Splash Screen',
   regist: {
     buatAkun: 'Registrasi Buat Akun',
-    noKendaraan: 'Registrasi Nomor Kendaraan',
-    form: 'Registrasi Form',
     dataDiri: 'Registrasi Data Diri',
     buatPassword: 'Registrasi Buat Password',
     daftarBerhasil: 'Registrasi Pendaftaran Berhasil',
@@ -23,6 +22,23 @@ const screens = {
     request: 'Request',
     notifikasi: 'Notifikasi',
     profile: 'Profile',
+  },
+  profile: {
+    edit: 'Profile Edit',
+    daftarPemakaiKendaraan: {
+      main: 'Daftar Pemakai Kendaraan',
+      daftarKendaraan: 'Daftar Kendaraan',
+      daftarPemakai: 'Daftar Pemakai',
+    },
+    viewUnit: 'View Unit',
+    requestUMD: {
+      main: 'Request Update Unit',
+      picCustomer: 'Request Update Unit PIC Customer',
+      endUser: 'Request Update Unit End User',
+    },
+    gantiPass: 'Ganti Password',
+    hubungiKami: 'Hubungi Kami',
+    logout: 'Keluar',
   },
 };
 

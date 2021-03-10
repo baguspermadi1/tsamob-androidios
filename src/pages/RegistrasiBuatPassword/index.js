@@ -1,6 +1,15 @@
-import {BackNonLogin, Button, HeaderNonLogin, TextInput} from '@components';
+import api from '@actions/api';
+import {
+  BackNonLogin,
+  Button,
+  HeaderNonLogin,
+  Loading,
+  TextInput,
+} from '@components';
 import configs from '@configs';
+import moment from 'moment';
 import React, {useEffect, useState} from 'react';
+import {Alert} from 'react-native';
 import {
   Dimensions,
   Keyboard,
@@ -15,16 +24,31 @@ import {
 } from 'react-native';
 import {Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
-const RegistrasiBuatPassword = ({navigation}) => {
+const RegistrasiBuatPassword = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
   const [isBtnDisabled, setisBtnDisabled] = useState(true);
   const [hidePassword, sethidePassword] = useState(true);
   const [regexCheck1, setregexCheck1] = useState(false);
   const [regexCheck2, setregexCheck2] = useState(false);
   const [regexCheck3, setregexCheck3] = useState(false);
   const [password, setpassword] = useState('');
+
+  const {
+    namaPerusahaan,
+    title,
+    namaLengkap,
+    tanggalLahir,
+    nomorHandphone,
+    email,
+    showCompanyDataUnit,
+    licensePlate,
+  } = route.params;
 
   useEffect(() => {
     if (new RegExp(/(?=.*\d)/).test(password)) {
@@ -49,9 +73,50 @@ const RegistrasiBuatPassword = ({navigation}) => {
       setisBtnDisabled(true);
     }
   }, [password, regexCheck1, regexCheck2, regexCheck3]);
+
+  const checkRegistration = async () => {
+    await dispatch(
+      api.Registration.postVerifyRegistration({
+        company: namaPerusahaan,
+        licensePlate: licensePlate,
+        title: title,
+        name: namaLengkap,
+        dateOfBirth: moment(tanggalLahir, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+        phoneNumber: nomorHandphone,
+        email: email,
+        password: password,
+      }),
+    )
+      .then(async (res) => {
+        let {success, title: titleError, message, error_code, errors} = res;
+        console.log('Response', JSON.stringify(res));
+
+        if (success) {
+          navigation.navigate(configs.screens.regist.daftarBerhasil, {
+            showCompanyDataUnit: showCompanyDataUnit,
+          });
+        } else {
+          if (error_code === 'inline_validations') {
+            let errorBundling = [];
+            errors.map((item) => {
+              let errorMessages = item.messages.join('\n');
+              errorBundling.push(errorMessages);
+            });
+            Alert.alert('Error', errorBundling.join('\n'), [{text: 'OK'}]);
+          } else {
+            Alert.alert(titleError, message, [{text: 'OK'}]);
+          }
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
+
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -148,7 +213,7 @@ const RegistrasiBuatPassword = ({navigation}) => {
             text={'Lanjutkan'}
             onPress={() => {
               Keyboard.dismiss();
-              navigation.navigate(configs.screens.regist.daftarBerhasil);
+              checkRegistration();
             }}
             disabled={isBtnDisabled}
           />

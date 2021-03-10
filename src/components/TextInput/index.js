@@ -15,12 +15,15 @@ const TextInput = ({
   keyboardType,
   showPassword,
   rightIcon,
+  rightIconColor,
   rightIconType,
   onRightIconPress,
   leftIcon,
+  leftIconColor,
   leftIconType,
   onLeftIconPress,
   focusAfterError,
+  useLineStyles,
 }) => {
   const [isFocus, setisFocus] = useState(false);
   const [colorFocus, setcolorFocus] = useState(false);
@@ -31,7 +34,7 @@ const TextInput = ({
     if (isFocus) {
       setcolorFocus(configs.colors.primary.Sapphire.base);
     } else {
-      setcolorFocus('#86939E');
+      setcolorFocus(configs.colors.neutral.states.blur);
     }
   }, [isFocus]);
 
@@ -61,6 +64,8 @@ const TextInput = ({
               ? configs.colors.primary.Sapphire.base
               : isError
               ? configs.colors.secondary.Ruby.light
+              : useLineStyles
+              ? configs.colors.neutral.Grey.base
               : configs.colors.neutral.White.base,
           ...style,
         }}>
@@ -70,6 +75,9 @@ const TextInput = ({
             type={leftIconType}
             onPress={onLeftIconPress}
             containerStyle={{marginHorizontal: RFValue(8)}}
+            color={
+              leftIconColor ? leftIconColor : configs.colors.neutral.Grey.base
+            }
           />
         ) : null}
         <Input
@@ -80,7 +88,7 @@ const TextInput = ({
           }}
           inputStyle={{
             fontSize: configs.sizes.Text.M,
-            fontFamily: configs.fonts.OpenSans.Regular,
+            fontFamily: configs.fonts.OpenSans.SemiBold,
           }}
           secureTextEntry={showPassword}
           value={valueText}
@@ -97,6 +105,7 @@ const TextInput = ({
               focusAfterError();
             }
           }}
+          autoCapitalize={'none'}
           onBlur={(e) => setisFocus(false)}
           onChangeText={(text) => {
             onChangeText(text);
@@ -108,10 +117,13 @@ const TextInput = ({
             type={rightIconType}
             onPress={onRightIconPress}
             containerStyle={{marginHorizontal: RFValue(8)}}
+            color={
+              rightIconColor ? rightIconColor : configs.colors.neutral.Grey.base
+            }
           />
         ) : null}
       </View>
-      {isError && <Text style={styles.errorInfo}>{errorInfo}</Text>}
+      {errorInfo && <Text style={styles.errorInfo}>{errorInfo}</Text>}
     </>
   );
 };
@@ -139,6 +151,7 @@ const styles = StyleSheet.create({
     fontSize: configs.sizes.Text.S,
     fontFamily: configs.fonts.OpenSans.Regular,
     alignSelf: 'flex-end',
+    textAlign: 'right',
     marginBottom: RFValue(16),
   },
   label: {

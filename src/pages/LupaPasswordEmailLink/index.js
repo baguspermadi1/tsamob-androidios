@@ -1,6 +1,8 @@
+import api from '@actions/api';
 import {BackNonLogin, Button, HeaderNonLogin, Loading} from '@components';
 import configs from '@configs';
-import React, {useState} from 'react';
+import utilities from '@utilities';
+import React from 'react';
 import {
   Dimensions,
   Keyboard,
@@ -14,15 +16,37 @@ import {
   View,
 } from 'react-native';
 import {RFValue} from 'react-native-responsive-fontsize';
+import {useDispatch, useSelector} from 'react-redux';
 
 const {width: screenWidth} = Dimensions.get('screen');
 
 const LupaPasswordEmailLink = ({navigation, route}) => {
-  const [isLoading, setisLoading] = useState(false);
+  const email = route.params.email;
+  const dispatch = useDispatch();
+  const loadingRedux = useSelector((state) => state.loading);
+
+  const trySendMail = async () => {
+    await dispatch(
+      api.Password.postForgotPassword({
+        email: email,
+      }),
+    )
+      .then(async (res) => {
+        let {success} = res;
+
+        if (success) {
+          // * Success Try Send Email
+        }
+      })
+      .catch((e) => {
+        return console.log('Catch Error', e.toString());
+      });
+  };
 
   return (
     <SafeAreaView style={styles.body}>
       <StatusBar barStyle="dark-content" />
+      <Loading isLoading={loadingRedux} />
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : null}
         keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 0}
@@ -49,12 +73,11 @@ const LupaPasswordEmailLink = ({navigation, route}) => {
                   fontFamily: configs.fonts.OpenSans.Bold,
                   marginBottom: RFValue(16),
                 }}>
-                {route.params.email}
+                {email}
               </Text>
             </Text>
           }
         />
-        <Loading isLoading={isLoading} />
         <View style={styles.containerResend}>
           <Text
             style={{
@@ -64,18 +87,15 @@ const LupaPasswordEmailLink = ({navigation, route}) => {
             }}>
             Belum menerima email?{' '}
           </Text>
-          <TouchableOpacity onPress={() => console.log('Kirim Ulang')}>
+          <TouchableOpacity
+            onPress={() => {
+              trySendMail();
+            }}>
             <Text
               style={{
                 color: configs.colors.primary.Sapphire.darker,
                 fontSize: configs.sizes.Text.L,
                 fontFamily: configs.fonts.OpenSans.Bold,
-              }}
-              onPress={() => {
-                setisLoading(true);
-                setTimeout(() => {
-                  setisLoading(false);
-                }, 1000);
               }}>
               Kirim Ulang
             </Text>
@@ -84,11 +104,10 @@ const LupaPasswordEmailLink = ({navigation, route}) => {
         <View style={styles.containerBottom}>
           <Button
             text={'Selesai'}
-            onPress={() => {
+            onPress={async () => {
               Keyboard.dismiss();
-              navigation.reset({
-                index: 0,
-                routes: [{name: configs.screens.forgotPwd.main}],
+              await utilities.navigateRoute.resetToLogin({
+                navigation: navigation,
               });
             }}
           />
